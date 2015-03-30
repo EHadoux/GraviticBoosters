@@ -1,5 +1,6 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
+#include "UnitWrapper.h"
 
 #include <iostream>
 #include <thread>
@@ -71,6 +72,14 @@ int main(int argc, const char* argv[])
       Unitset minerals  = Broodwar->getMinerals();
       for ( auto &u : units )
       {
+		  UnitWrapper uw = UnitWrapper(u);
+		  Broodwar << "test" << std::endl;
+		  Broodwar << "test" << std::endl;
+		  Broodwar << "test" << std::endl;
+		  Broodwar << "test" << std::endl;
+		  Broodwar << "test" << std::endl;
+		  Broodwar << "test" << std::endl;
+		  Broodwar << "Position: " << uw.getPosition() << std::endl;
         if ( u->getType().isWorker() )
         {
           Unit closestMineral = nullptr;

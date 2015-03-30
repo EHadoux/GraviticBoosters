@@ -11,7 +11,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Building.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\ExampleAIClient.cpp" />
+    <ClCompile Include="Source\Map.cpp" />
+    <ClCompile Include="Source\Observer.cpp" />
+    <ClCompile Include="Source\Position.cpp" />
+    <ClCompile Include="Source\Tile.cpp" />
+    <ClCompile Include="UnitWrapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Building.h" />
+    <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\Helpers.h" />
+    <ClInclude Include="Source\Map.h" />
+    <ClInclude Include="Source\Observer.h" />
+    <ClInclude Include="Source\Position.h" />
+    <ClInclude Include="Source\Tile.h" />
+    <ClInclude Include="Source\UnitWrapper.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{933E2958-A2EA-4C23-801E-4E2073B15ABB}</ProjectGuid>
@@ -59,7 +78,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Source;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

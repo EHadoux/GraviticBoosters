@@ -19,7 +19,7 @@
     <ClCompile Include="Source\Observer.cpp" />
     <ClCompile Include="Source\Position.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
-    <ClCompile Include="UnitWrapper.cpp" />
+    <ClCompile Include="Source\UnitWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Building.h" />
@@ -79,9 +79,10 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./Source;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>lib/BWAPI.lib;lib/BWAPIClient.lib;%(AdditionalDependencies)</AdditionalDependencies>

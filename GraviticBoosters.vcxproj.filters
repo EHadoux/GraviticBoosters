@@ -36,10 +36,10 @@
     <ClCompile Include="Source\Position.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnitWrapper.cpp">
+    <ClCompile Include="Source\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity.cpp">
+    <ClCompile Include="Source\UnitWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

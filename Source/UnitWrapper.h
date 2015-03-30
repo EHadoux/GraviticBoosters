@@ -10,6 +10,7 @@ public:
 	UnitWrapper(UnitInterface *bw_unit);
 	~UnitWrapper();
 	Position getPosition() const;
+	double timeToPosition(Position to);
 
 private:
 	UnitInterface *_bw_unit;

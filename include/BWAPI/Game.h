@@ -115,7 +115,7 @@ namespace BWAPI
     /// @note Nuke dots are the red dots painted by a @Ghost when using the nuclear strike ability.
     ///
     /// @returns Set of Positions giving the coordinates of nuke locations.
-    virtual const Position::list& getNukeDots() const = 0;
+	virtual const BWAPI::Position::list& getNukeDots() const = 0;
 
     /// Retrieves the list of all unhandled game events.
     ///

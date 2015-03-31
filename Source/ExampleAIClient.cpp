@@ -241,10 +241,10 @@ void drawBullets()
 {
   for (auto &b : Broodwar->getBullets())
   {
-    Position p = b->getPosition();
+	BWAPI::Position p = b->getPosition();
     double velocityX = b->getVelocityX();
     double velocityY = b->getVelocityY();
-    Broodwar->drawLineMap(p, p + Position((int)velocityX, (int)velocityY), b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
+	Broodwar->drawLineMap(p, p + BWAPI::Position((int)velocityX, (int)velocityY), b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
     Broodwar->drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
   }
 }

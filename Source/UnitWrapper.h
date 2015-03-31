@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "BWAPI.h"
+#include <vector>
 
 using namespace BWAPI;
 
@@ -11,6 +12,11 @@ public:
 	~UnitWrapper();
 	Position getPosition() const;
 	double timeToPosition(Position to);
+	std::vector<UnitWrapper> neighborhood();
+
+	double aggresssionPotential();
+	double economicPotential();
+	double strategicPotential();
 
 private:
 	UnitInterface *_bw_unit;
@@ -18,4 +24,3 @@ private:
 	double _xvelocity, _yvelocity;
 	Position _position;
 };
-

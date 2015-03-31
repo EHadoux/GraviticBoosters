@@ -1,13 +1,13 @@
 #pragma once
-class Tile
-{
+
+class Tile {
 public:
 	Tile();
 	~Tile();
 
-	double getPotential();
-	void setPotential(double value);
+	double getPotential() const { return potential; }
+	void setPotential(double potential);
 
 private:
-	double potential;
+	double _potential;
 };

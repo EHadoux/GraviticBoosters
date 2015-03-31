@@ -1,20 +1,13 @@
 #include "Map.h"
 
-Map::Map(const unsigned int w, const unsigned int h)
-{
-	width = w;
-	height = h;
-
-	tiles.resize(w*h);
+Map::Map(const unsigned int width, const unsigned int height) :
+_tiles(w*h) {
+	_width  = width;
+	_height = height;
 }
 
-Map::~Map()
-{
-}
+Map::~Map() {}
 
-Tile Map::getTileAt(int x, int y) {
+Tile* Map::getTileAt(unsigned int x, unsigned int y) {
 	return tiles[y*width+x];
 }
-
-unsigned int Map::getWidth() const { return width; }
-unsigned int Map::getHeight() const { return height; }

@@ -1,18 +1,12 @@
 #include "Tile.h"
 
-
-Tile::Tile()
-{
+Tile::Tile() {
 	potential = 0.0;
 }
 
+Tile::~Tile() {}
 
-Tile::~Tile()
-{
-}
-
-double Tile::getPotential() { return potential; }
-
-void Tile::setPotential(double value) {
-	potential = value;
+void Tile::setPotential(const double potential) {
+	_potential = value;
+	//And propagate
 }

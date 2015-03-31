@@ -12,14 +12,9 @@ UnitWrapper::UnitWrapper(BWAPI::UnitInterface *bw_unit)
 }
 
 
-UnitWrapper::~UnitWrapper()
-{
-}
-
-
+UnitWrapper::~UnitWrapper() {}
 
 double UnitWrapper::timeToPosition(Position to) {
 	int deltax = abs(to.x - getPosition().x), deltay = abs(to.y - getPosition().y);
 	return sqrt(pow(deltax / _xvelocity, 2) + pow(deltay / _yvelocity, 2));
 }
-

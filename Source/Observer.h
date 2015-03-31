@@ -1,8 +1,7 @@
 #pragma once
-class Observer
-{
+
+class Observer {
 public:
 	Observer();
 	~Observer();
 };
-

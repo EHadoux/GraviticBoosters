@@ -11,7 +11,6 @@ public:
 	~UnitWrapper();
 	double timeToPosition(Position to);
 	
-
 private:
 	BWAPI::UnitInterface *_bw_unit;
 	double _xvelocity, _yvelocity;

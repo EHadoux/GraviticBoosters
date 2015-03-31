@@ -2,20 +2,17 @@
 #include "Tile.h"
 #include <vector>
 
-class Map
-{
+class Map {
 public:
-	Map(const unsigned int w, const unsigned int h);
+	Map(unsigned int w, unsigned int h);
 	~Map();
 
-	unsigned int getWidth() const;
-	unsigned int getHeight() const;
+	unsigned int getWidth() const { return _width; }
+	unsigned int getHeight() const { return _height; }
 
-	Tile getTileAt(int x, int y);
+	Tile* getTileAt(unsigned int x, unsigned int y);
 
 private:
-	int width, height;
-	std::vector<Tile> tiles;
-
+	int _width, _height;
+	std::vector<Tile*> _tiles;
 };
-

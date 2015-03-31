@@ -1,19 +1,19 @@
 #pragma once
-#include "BWAPI.h"
 #include "Position.h"
 #include <vector>
 
 class Entity {
 public:
-	Entity();
+	Entity(Position position, int minerals, int gas, int dps);
 	~Entity();
-	Position getPosition() const;
 
-	double aggresssionPotential();
-	double economicPotential();
-	double strategicPotential();
+	Position getPosition() const { return _position; }
 
-	std::vector<Entity> neighborhood();
+	double aggressionPotential() const;
+	double economicPotential() const;
+	double strategicPotential() const;
+
+	std::vector<Entity*> neighborhood();
 
 private:
 	Position _position;

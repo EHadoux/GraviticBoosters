@@ -3,7 +3,7 @@
 
 class Camera {
 public:
-	Camera();
+	Camera(Position position);
 	~Camera();
 
 	Position getPosition() const { return _position; }

@@ -3,6 +3,7 @@
 class Position {
 public:
 	Position(unsigned int x, unsigned int y);
+	Position(const Position &orig);
 	~Position();
 
 	unsigned int getX() const { return _x; }

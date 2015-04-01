@@ -3,6 +3,6 @@
 
 class Building : public Entity {
 public:
-	Building();
+	Building(Position position, unsigned int minerals, unsigned int gas);
 	~Building();
 };

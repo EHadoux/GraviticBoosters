@@ -1,13 +1,11 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
-#include "UnitWrapper.h"
+#include "Unit.h"
 
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <string>
-
-using namespace BWAPI;
 
 void drawStats();
 void drawBullets();
@@ -19,7 +17,7 @@ bool show_visibility_data;
 
 void reconnect()
 {
-  while(!BWAPIClient.connect())
+  while(!BWAPI::BWAPIClient.connect())
   {
     std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
   }
@@ -32,7 +30,7 @@ int main(int argc, const char* argv[])
   while(true)
   {
     std::cout << "waiting to enter match" << std::endl;
-    while ( !Broodwar->isInGame() )
+	while (!BWAPI::Broodwar->isInGame())
     {
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
@@ -42,47 +40,41 @@ int main(int argc, const char* argv[])
       }
     }
     std::cout << "starting match!" << std::endl;
-    Broodwar->sendText("Hello world!");
-    Broodwar << "The map is " << Broodwar->mapName() << ", a " << Broodwar->getStartLocations().size() << " player map" << std::endl;
+	BWAPI::Broodwar->sendText("Hello world!");
+	BWAPI::Broodwar << "The map is " << BWAPI::Broodwar->mapName() << ", a " 
+		<< BWAPI::Broodwar->getStartLocations().size() << " player map" << std::endl;
     // Enable some cheat flags
-    Broodwar->enableFlag(Flag::UserInput);
+	BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
     // Uncomment to enable complete map information
     //Broodwar->enableFlag(Flag::CompleteMapInformation);
 
     show_bullets=false;
     show_visibility_data=false;
 
-    if (Broodwar->isReplay())
+	if (BWAPI::Broodwar->isReplay())
     {
-      Broodwar << "The following players are in this replay:" << std::endl;;
-      Playerset players = Broodwar->getPlayers();
+		BWAPI::Broodwar << "The following players are in this replay:" << std::endl;;
+		BWAPI::Playerset players = BWAPI::Broodwar->getPlayers();
       for(auto p : players)
       {
         if ( !p->getUnits().empty() && !p->isNeutral() )
-          Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
+			BWAPI::Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
       }
     }
     else
     {
-      if (Broodwar->enemy())
-        Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
+		if (BWAPI::Broodwar->enemy())
+			BWAPI::Broodwar << "The match up is " << BWAPI::Broodwar->self()->getRace() << " vs " 
+			<< BWAPI::Broodwar->enemy()->getRace() << std::endl;
 
       //send each worker to the mineral field that is closest to it
-      Unitset units    = Broodwar->self()->getUnits();
-      Unitset minerals  = Broodwar->getMinerals();
+		BWAPI::Unitset units = BWAPI::Broodwar->self()->getUnits();
+		BWAPI::Unitset minerals = BWAPI::Broodwar->getMinerals();
       for ( auto &u : units )
-      {
-		  UnitWrapper uw = UnitWrapper(u);
-		  Broodwar << "test" << std::endl;
-		  Broodwar << "test" << std::endl;
-		  Broodwar << "test" << std::endl;
-		  Broodwar << "test" << std::endl;
-		  Broodwar << "test" << std::endl;
-		  Broodwar << "test" << std::endl;
-		  Broodwar << "Position: " << uw.getPosition() << std::endl;
+      {		  
         if ( u->getType().isWorker() )
         {
-          Unit closestMineral = nullptr;
+			BWAPI::Unit closestMineral = nullptr;
 
           for (auto &m : minerals)
           {
@@ -95,23 +87,23 @@ int main(int argc, const char* argv[])
         else if ( u->getType().isResourceDepot() )
         {
           //if this is a center, tell it to build the appropiate type of worker
-          u->train(Broodwar->self()->getRace().getWorker());
+			u->train(BWAPI::Broodwar->self()->getRace().getWorker());
         }
       }
     }
-    while(Broodwar->isInGame())
+	while (BWAPI::Broodwar->isInGame())
     {
-      for(auto &e : Broodwar->getEvents())
+		for (auto &e : BWAPI::Broodwar->getEvents())
       {
         switch(e.getType())
         {
-          case EventType::MatchEnd:
+		case BWAPI::EventType::MatchEnd:
             if (e.isWinner())
-              Broodwar << "I won the game" << std::endl;
+				BWAPI::Broodwar << "I won the game" << std::endl;
             else
-              Broodwar << "I lost the game" << std::endl;
+				BWAPI::Broodwar << "I lost the game" << std::endl;
             break;
-          case EventType::SendText:
+		case BWAPI::EventType::SendText:
             if (e.getText()=="/show bullets")
             {
               show_bullets=!show_bullets;
@@ -127,74 +119,75 @@ int main(int argc, const char* argv[])
             }
             else
             {
-              Broodwar << "You typed \"" << e.getText() << "\"!" << std::endl;
+				BWAPI::Broodwar << "You typed \"" << e.getText() << "\"!" << std::endl;
             }
             break;
-          case EventType::ReceiveText:
-            Broodwar << e.getPlayer()->getName() << " said \"" << e.getText() << "\"" << std::endl;
+		case BWAPI::EventType::ReceiveText:
+			BWAPI::Broodwar << e.getPlayer()->getName() << " said \"" << e.getText() << "\"" << std::endl;
             break;
-          case EventType::PlayerLeft:
-            Broodwar << e.getPlayer()->getName() << " left the game." << std::endl;
+		case BWAPI::EventType::PlayerLeft:
+			BWAPI::Broodwar << e.getPlayer()->getName() << " left the game." << std::endl;
             break;
-          case EventType::NukeDetect:
-            if (e.getPosition()!=Positions::Unknown)
+		case BWAPI::EventType::NukeDetect:
+			if (e.getPosition() != BWAPI::Positions::Unknown)
             {
-              Broodwar->drawCircleMap(e.getPosition(), 40, Colors::Red, true);
-              Broodwar << "Nuclear Launch Detected at " << e.getPosition() << std::endl;
+				BWAPI::Broodwar->drawCircleMap(e.getPosition(), 40, BWAPI::Colors::Red, true);
+				BWAPI::Broodwar << "Nuclear Launch Detected at " << e.getPosition() << std::endl;
             }
             else
-              Broodwar << "Nuclear Launch Detected" << std::endl;
+				BWAPI::Broodwar << "Nuclear Launch Detected" << std::endl;
             break;
-          case EventType::UnitCreate:
-            if (!Broodwar->isReplay())
-              Broodwar << "A " << e.getUnit()->getType() << " [" << e.getUnit() << "] has been created at " << e.getUnit()->getPosition() << std::endl;
-            else
-            {
-              // if we are in a replay, then we will print out the build order
-              // (just of the buildings, not the units).
-              if (e.getUnit()->getType().isBuilding() && e.getUnit()->getPlayer()->isNeutral()==false)
-              {
-                int seconds=Broodwar->getFrameCount()/24;
-                int minutes=seconds/60;
-                seconds%=60;
-                Broodwar->sendText("%.2d:%.2d: %s creates a %s", minutes, seconds, e.getUnit()->getPlayer()->getName().c_str(), e.getUnit()->getType().c_str());
-              }
-            }
-            break;
-          case EventType::UnitDestroy:
-            if (!Broodwar->isReplay())
-              Broodwar->sendText("A %s [%p] has been destroyed at (%d,%d)",e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
-            break;
-          case EventType::UnitMorph:
-            if (!Broodwar->isReplay())
-              Broodwar->sendText("A %s [%p] has been morphed at (%d,%d)",e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
+		case BWAPI::EventType::UnitCreate:
+			if (!BWAPI::Broodwar->isReplay())
+				BWAPI::Broodwar << "A " << e.getUnit()->getType() << " [" << 
+				e.getUnit() << "] has been created at " << e.getUnit()->getPosition() << std::endl;
             else
             {
               // if we are in a replay, then we will print out the build order
               // (just of the buildings, not the units).
               if (e.getUnit()->getType().isBuilding() && e.getUnit()->getPlayer()->isNeutral()==false)
               {
-                int seconds=Broodwar->getFrameCount()/24;
+				  int seconds = BWAPI::Broodwar->getFrameCount() / 24;
                 int minutes=seconds/60;
                 seconds%=60;
-                Broodwar->sendText("%.2d:%.2d: %s morphs a %s" ,minutes, seconds, e.getUnit()->getPlayer()->getName().c_str(), e.getUnit()->getType().c_str());
+				BWAPI::Broodwar->sendText("%.2d:%.2d: %s creates a %s", minutes, seconds, e.getUnit()->getPlayer()->getName().c_str(), e.getUnit()->getType().c_str());
               }
             }
             break;
-          case EventType::UnitShow:
-            if (!Broodwar->isReplay())
-              Broodwar->sendText("A %s [%p] has been spotted at (%d,%d)", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
+		case BWAPI::EventType::UnitDestroy:
+			if (!BWAPI::Broodwar->isReplay())
+				BWAPI::Broodwar->sendText("A %s [%p] has been destroyed at (%d,%d)", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
             break;
-          case EventType::UnitHide:
-            if (!Broodwar->isReplay())
-              Broodwar->sendText("A %s [%p] was last seen at (%d,%d)", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
+		case BWAPI::EventType::UnitMorph:
+			if (!BWAPI::Broodwar->isReplay())
+				BWAPI::Broodwar->sendText("A %s [%p] has been morphed at (%d,%d)", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
+            else
+            {
+              // if we are in a replay, then we will print out the build order
+              // (just of the buildings, not the units).
+              if (e.getUnit()->getType().isBuilding() && e.getUnit()->getPlayer()->isNeutral()==false)
+              {
+				  int seconds = BWAPI::Broodwar->getFrameCount() / 24;
+                int minutes=seconds/60;
+                seconds%=60;
+				BWAPI::Broodwar->sendText("%.2d:%.2d: %s morphs a %s", minutes, seconds, e.getUnit()->getPlayer()->getName().c_str(), e.getUnit()->getType().c_str());
+              }
+            }
             break;
-          case EventType::UnitRenegade:
-            if (!Broodwar->isReplay())
-              Broodwar->sendText("A %s [%p] is now owned by %s", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPlayer()->getName().c_str());
+		case BWAPI::EventType::UnitShow:
+			if (!BWAPI::Broodwar->isReplay())
+				BWAPI::Broodwar->sendText("A %s [%p] has been spotted at (%d,%d)", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
             break;
-          case EventType::SaveGame:
-            Broodwar->sendText("The game was saved to \"%s\".", e.getText().c_str());
+		case BWAPI::EventType::UnitHide:
+			if (!BWAPI::Broodwar->isReplay())
+				BWAPI::Broodwar->sendText("A %s [%p] was last seen at (%d,%d)", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPosition().x, e.getUnit()->getPosition().y);
+            break;
+		case BWAPI::EventType::UnitRenegade:
+			if (!BWAPI::Broodwar->isReplay())
+				BWAPI::Broodwar->sendText("A %s [%p] is now owned by %s", e.getUnit()->getType().c_str(), e.getUnit(), e.getUnit()->getPlayer()->getName().c_str());
+            break;
+		case BWAPI::EventType::SaveGame:
+			BWAPI::Broodwar->sendText("The game was saved to \"%s\".", e.getText().c_str());
             break;
         }
       }
@@ -206,7 +199,7 @@ int main(int argc, const char* argv[])
         drawVisibilityData();
 
       drawStats();
-      Broodwar->drawTextScreen(300,0,"FPS: %f",Broodwar->getAverageFPS());
+	  BWAPI::Broodwar->drawTextScreen(300, 0, "FPS: %f", BWAPI::Broodwar->getAverageFPS());
 
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
@@ -225,13 +218,13 @@ int main(int argc, const char* argv[])
 void drawStats()
 {
   int line = 0;
-  Broodwar->drawTextScreen(5, 0, "I have %d units:", Broodwar->self()->allUnitCount() );
-  for (auto& unitType : UnitTypes::allUnitTypes())
+  BWAPI::Broodwar->drawTextScreen(5, 0, "I have %d units:", BWAPI::Broodwar->self()->allUnitCount());
+  for (auto& unitType : BWAPI::UnitTypes::allUnitTypes())
   {
-    int count = Broodwar->self()->allUnitCount(unitType);
+	  int count = BWAPI::Broodwar->self()->allUnitCount(unitType);
     if ( count )
     {
-      Broodwar->drawTextScreen(5, 16*line, "- %d %s%c", count, unitType.c_str(), count == 1 ? ' ' : 's');
+		BWAPI::Broodwar->drawTextScreen(5, 16 * line, "- %d %s%c", count, unitType.c_str(), count == 1 ? ' ' : 's');
       ++line;
     }
   }
@@ -239,44 +232,44 @@ void drawStats()
 
 void drawBullets()
 {
-  for (auto &b : Broodwar->getBullets())
+	for (auto &b : BWAPI::Broodwar->getBullets())
   {
 	BWAPI::Position p = b->getPosition();
     double velocityX = b->getVelocityX();
     double velocityY = b->getVelocityY();
-	Broodwar->drawLineMap(p, p + BWAPI::Position((int)velocityX, (int)velocityY), b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
-    Broodwar->drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
+	BWAPI::Broodwar->drawLineMap(p, p + BWAPI::Position((int)velocityX, (int)velocityY), b->getPlayer() == BWAPI::Broodwar->self() ? BWAPI::Colors::Green : BWAPI::Colors::Red);
+	BWAPI::Broodwar->drawTextMap(p, "%c%s", b->getPlayer() == BWAPI::Broodwar->self() ? BWAPI::Text::Green : BWAPI::Text::Red, b->getType().c_str());
   }
 }
 
 void drawVisibilityData()
 {
-  int wid = Broodwar->mapHeight(), hgt = Broodwar->mapWidth();
+	int wid = BWAPI::Broodwar->mapHeight(), hgt = BWAPI::Broodwar->mapWidth();
   for ( int x = 0; x < wid; ++x )
     for ( int y = 0; y < hgt; ++y )
     {
-      if ( Broodwar->isExplored(x, y) )
-        Broodwar->drawDotMap(x*32+16, y*32+16, Broodwar->isVisible(x, y) ? Colors::Green : Colors::Blue);
+		if (BWAPI::Broodwar->isExplored(x, y))
+			BWAPI::Broodwar->drawDotMap(x * 32 + 16, y * 32 + 16, BWAPI::Broodwar->isVisible(x, y) ? BWAPI::Colors::Green : BWAPI::Colors::Blue);
       else
-        Broodwar->drawDotMap(x*32+16, y*32+16, Colors::Red);
+		  BWAPI::Broodwar->drawDotMap(x * 32 + 16, y * 32 + 16, BWAPI::Colors::Red);
     }
 }
 
 void showPlayers()
 {
-  Playerset players = Broodwar->getPlayers();
+	BWAPI::Playerset players = BWAPI::Broodwar->getPlayers();
   for(auto p : players)
-    Broodwar << "Player [" << p->getID() << "]: " << p->getName() << " is in force: " << p->getForce()->getName() << std::endl;
+	  BWAPI::Broodwar << "Player [" << p->getID() << "]: " << p->getName() << " is in force: " << p->getForce()->getName() << std::endl;
 }
 
 void showForces()
 {
-  Forceset forces=Broodwar->getForces();
+	BWAPI::Forceset forces = BWAPI::Broodwar->getForces();
   for(auto f : forces)
   {
-    Playerset players = f->getPlayers();
-    Broodwar << "Force " << f->getName() << " has the following players:" << std::endl;
+	  BWAPI::Playerset players = f->getPlayers();
+	  BWAPI::Broodwar << "Force " << f->getName() << " has the following players:" << std::endl;
     for(auto p : players)
-      Broodwar << "  - Player [" << p->getID() << "]: " << p->getName() << std::endl;
+		BWAPI::Broodwar << "  - Player [" << p->getID() << "]: " << p->getName() << std::endl;
   }
 }

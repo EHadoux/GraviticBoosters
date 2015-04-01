@@ -19,7 +19,7 @@
     <ClCompile Include="Source\Observer.cpp" />
     <ClCompile Include="Source\Position.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
-    <ClCompile Include="Source\UnitWrapper.cpp" />
+    <ClCompile Include="Source\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Building.h" />
@@ -30,7 +30,7 @@
     <ClInclude Include="Source\Observer.h" />
     <ClInclude Include="Source\Position.h" />
     <ClInclude Include="Source\Tile.h" />
-    <ClInclude Include="Source\UnitWrapper.h" />
+    <ClInclude Include="Source\Unit.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{933E2958-A2EA-4C23-801E-4E2073B15ABB}</ProjectGuid>

@@ -39,7 +39,7 @@
     <ClCompile Include="Source\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UnitWrapper.cpp">
+    <ClCompile Include="Source\Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,10 +65,10 @@
     <ClInclude Include="Source\Position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UnitWrapper.h">
+    <ClInclude Include="Source\Helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helpers.h">
+    <ClInclude Include="Source\Unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@ public:
 	Tile();
 	~Tile();
 
-	double getPotential() const { return potential; }
+	double getPotential() const { return _potential; }
 	void setPotential(double potential);
 
 private:

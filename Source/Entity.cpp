@@ -1,11 +1,9 @@
 #include "Entity.h"
 
-Entity::Entity(Position position, const unsigned int minerals,
-               const unsigned int gas, const unsigned int dps) :
+Entity::Entity(Position position, const unsigned int minerals, const unsigned int gas) :
 _position(position) {
 	_minerals = minerals;
 	_gas      = gas;
-	_dps      = dps;
 }
 
 Entity::~Entity() {}

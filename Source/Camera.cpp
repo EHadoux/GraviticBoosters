@@ -1,5 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera() {}
+Camera::Camera(Position position) :
+_position(position) {}
 
 Camera::~Camera() {}

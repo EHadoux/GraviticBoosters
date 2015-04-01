@@ -4,7 +4,7 @@
 
 class Entity {
 public:
-	Entity(Position position, int minerals, int gas, int dps);
+	Entity(Position position, unsigned int minerals, unsigned int gas);
 	~Entity();
 
 	Position getPosition() const { return _position; }
@@ -15,7 +15,7 @@ public:
 
 	std::vector<Entity*> neighborhood();
 
-private:
+protected:
 	Position _position;
-	int _dps, _gas, _minerals;
+	int _minerals, _gas;
 };

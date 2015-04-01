@@ -1,13 +1,13 @@
 #include "Map.h"
 
 Map::Map(const unsigned int width, const unsigned int height) :
-_tiles(w*h) {
+_tiles(width * height) {
 	_width  = width;
 	_height = height;
 }
 
 Map::~Map() {}
 
-Tile* Map::getTileAt(unsigned int x, unsigned int y) {
-	return tiles[y*width+x];
+Tile* Map::getTileAt(const unsigned int x, const unsigned int y) {
+	return _tiles[y * _width + x];
 }

@@ -1,13 +1,12 @@
 #pragma once
+#include "HasPosition.h"
 #include "Position.h"
 #include <vector>
 
-class Entity {
+class Entity : public HasPosition {
 public:
 	Entity(Position position, unsigned int minerals, unsigned int gas);
 	~Entity();
-
-	Position getPosition() const { return _position; }
 
 	double aggressionPotential() const;
 	double economicPotential() const;
@@ -16,6 +15,5 @@ public:
 	std::vector<Entity*> neighborhood();
 
 protected:
-	Position _position;
 	int _minerals, _gas;
 };

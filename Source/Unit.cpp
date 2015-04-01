@@ -1,8 +1,9 @@
 #include <cmath>
 #include "Unit.h"
 
-Unit::Unit(Position position, const unsigned int minerals, const unsigned int gas, const unsigned int dps, double xvelocity, double yvelocity) :
-Entity(position, minerals, gas) {	
+Unit::Unit(Position position, const unsigned int minerals, const unsigned int gas, const unsigned int dps,
+           const double xvelocity, const double yvelocity, unsigned int population) :
+           Entity(position, minerals, gas), HasTargetPosition(), HasPopulation(population) {
 	_xvelocity = xvelocity;
 	_yvelocity = yvelocity;
 }

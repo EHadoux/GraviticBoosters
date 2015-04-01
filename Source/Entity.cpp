@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(Position position, const unsigned int minerals, const unsigned int gas) :
-_position(position) {
+HasPosition(position) {
 	_minerals = minerals;
 	_gas      = gas;
 }

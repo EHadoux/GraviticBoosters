@@ -3,11 +3,11 @@
 
 class Camera {
 public:
-	Camera(Position position);
-	~Camera();
+  Camera(Position position);
+  ~Camera();
 
-	Position getPosition() const { return _position; }
+  Position getPosition() const { return _position; }
 
 private:
-	Position _position;
+  Position _position;
 };

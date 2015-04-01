@@ -14,7 +14,10 @@
     <ClCompile Include="Source\Building.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
-    <ClCompile Include="Source\ExampleAIClient.cpp" />
+    <Text Include="Source\ExampleAIClient.txt">
+      <FileType>CppCode</FileType>
+    </Text>
+    <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Observer.cpp" />
     <ClCompile Include="Source\Position.cpp" />

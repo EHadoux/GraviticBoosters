@@ -11,8 +11,9 @@ public:
        double xvelocity, double yvelocity, unsigned int population);
   ~Unit();
 
-  double timeToPosition(Position to);
+  double timeToPosition(Position to) const;
   std::vector<Unit*>* unitNeighborhood() const;
+  double aggressionPotential() const;
 
 private:
   double _xvelocity, _yvelocity;

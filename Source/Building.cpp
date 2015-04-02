@@ -17,3 +17,8 @@ std::vector<Building*>* Building::buildingNeighborhood() const {
   }
   return bneighbors;
 }
+
+double Building::aggressionPotential() const {
+  // TODO
+  return 0.0;
+}

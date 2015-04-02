@@ -22,14 +22,16 @@ double Entity::getPotential() {
   return fmax(ap, fmax(sp, ep));
 }
 
-double Entity::aggressionPotential() const {
-  return 0.0;
-}
-
 double Entity::economicPotential() const {
   return 0.0;
 }
 
 double Entity::strategicPotential() const {
   return 0.0;
+}
+
+int Entity::isEnnemy(Entity * other) const {
+  // TODO
+
+  return false;
 }

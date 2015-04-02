@@ -45,9 +45,6 @@
     <ClCompile Include="Source\PotentialHeatmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Drive\Stage LORIA\LibPG-MSA\MultiSegmentsArm\SDL_utils.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Building.h">
@@ -80,7 +77,16 @@
     <ClInclude Include="Source\PotentialHeatmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="E:\Drive\Stage LORIA\LibPG-MSA\MultiSegmentsArm\SDL_utils.hh">
+    <ClInclude Include="Source\HasPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HasTargetPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HasPopulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HasDPSUpgrade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,8 +6,8 @@ Position::Position(const unsigned int x, const unsigned int y) {
 }
 
 Position::Position(const Position &orig) {
-	_x = orig._x;
-	_y = orig._y;
+  _x = orig._x;
+  _y = orig._y;
 }
 
 Position::~Position() {}

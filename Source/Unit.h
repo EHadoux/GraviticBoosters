@@ -13,5 +13,5 @@ public:
 	double timeToPosition(Position to);
 	
 private:
-	double _xvelocity, _yvelocity;
+  double _xvelocity, _yvelocity;
 };

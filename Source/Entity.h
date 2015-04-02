@@ -4,18 +4,18 @@
 
 class Entity {
 public:
-	Entity(Position position, unsigned int minerals, unsigned int gas);
-	~Entity();
+  Entity(Position position, unsigned int minerals, unsigned int gas);
+  ~Entity();
 
-	Position getPosition() const { return _position; }
+  Position getPosition() const { return _position; }
 
-	double aggressionPotential() const;
-	double economicPotential() const;
-	double strategicPotential() const;
+  double aggressionPotential() const;
+  double economicPotential() const;
+  double strategicPotential() const;
 
-	std::vector<Entity*> neighborhood();
+  std::vector<Entity*> neighborhood();
 
 protected:
-	Position _position;
-	int _minerals, _gas;
+  Position _position;
+  int _minerals, _gas;
 };

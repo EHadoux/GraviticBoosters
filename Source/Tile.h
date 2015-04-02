@@ -2,12 +2,12 @@
 
 class Tile {
 public:
-	Tile();
-	~Tile();
+  Tile();
+  ~Tile();
 
-	double getPotential() const { return _potential; }
-	void setPotential(double potential);
+  double getPotential() const { return _potential; }
+  void setPotential(double potential);
 
 private:
-	double _potential;
+  double _potential;
 };

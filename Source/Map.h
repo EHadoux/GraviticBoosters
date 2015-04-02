@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "Entity.h"
 #include <vector>
 
 class Map {
@@ -15,4 +16,6 @@ public:
 private:
   int _width, _height;
   std::vector<Tile*> _tiles;
+  void update();
+  void propagatePotential();
 };

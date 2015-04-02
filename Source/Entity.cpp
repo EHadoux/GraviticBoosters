@@ -14,6 +14,13 @@ std::vector<Entity*> Entity::neighborhood() {
   return neighbors;
 }
 
+double Entity::getPotential() {
+  double ap = aggressionPotential();
+  double sp = strategicPotential();
+  double ep = economicPotential();
+  return fmax(ap, fmax(sp, ep));
+}
+
 double Entity::aggressionPotential() const {
   return 0.0;
 }

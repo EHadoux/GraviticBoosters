@@ -1,5 +1,6 @@
 #pragma once
 #include "Position.h"
+#include "math.h"
 #include <vector>
 
 class Entity {
@@ -12,6 +13,7 @@ public:
   double aggressionPotential() const;
   double economicPotential() const;
   double strategicPotential() const;
+  double getPotential();
 
   std::vector<Entity*> neighborhood();
 

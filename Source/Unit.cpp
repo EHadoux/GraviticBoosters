@@ -17,7 +17,7 @@ double Unit::aggressionPotential() const {
   for(auto e : *neighborhood()) {
     Position target = getTargetPosition();
     if(isEnnemy(e) && e->getPosition().euclidian(&getPosition()) > e->getPosition().euclidian(&target)) {
-      pa = _dps / timeToPosition(target);
+      pa = fmax(pa,_dps / timeToPosition(target));
     }
   }
 

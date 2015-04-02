@@ -71,6 +71,18 @@
     <ClInclude Include="Source\Unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\HasPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HasTargetPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HasPopulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HasDPSUpgrade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\ExampleAIClient.txt">

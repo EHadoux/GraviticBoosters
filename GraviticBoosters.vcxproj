@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="E:\Drive\Stage LORIA\LibPG-MSA\MultiSegmentsArm\SDL_utils.cc" />
     <ClCompile Include="Source\Building.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
@@ -27,7 +26,6 @@
     <ClCompile Include="Source\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="E:\Drive\Stage LORIA\LibPG-MSA\MultiSegmentsArm\SDL_utils.hh" />
     <ClInclude Include="Source\Building.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Entity.h" />

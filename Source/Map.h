@@ -12,9 +12,10 @@ public:
   unsigned int getHeight() const { return _height; }
 
   Tile* getTileAt(unsigned int x, unsigned int y);
+  Position* getPosition(unsigned int id);
 
 private:
-  int _width, _height;
+  unsigned int _width, _height;
   std::vector<Tile*> _tiles;
   void update();
   void propagatePotential();

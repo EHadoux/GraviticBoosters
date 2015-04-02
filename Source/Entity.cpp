@@ -1,16 +1,17 @@
 #include "Entity.h"
 
-Entity::Entity(Position position, const unsigned int minerals, const unsigned int gas) :
-HasPosition(position) {
-	_minerals = minerals;
-	_gas      = gas;
+Entity::Entity(Position position, const unsigned int minerals, const unsigned int gas, const unsigned int dps) :
+HasPosition(position), HasDPSUpgrade() {
+  _minerals = minerals;
+  _gas = gas;
+  _dps = dps;
 }
 
 Entity::~Entity() {}
 
-std::vector<Entity*> Entity::neighborhood() {
-  std::vector<Entity*> neighbors;
-
+std::vector<Entity*>* Entity::neighborhood() const {
+  std::vector<Entity*> *neighbors;
+  //TODO
   return neighbors;
 }
 

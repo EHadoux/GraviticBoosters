@@ -80,6 +80,9 @@
     <ClInclude Include="Source\HasPopulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\HasDPSUpgrade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\ExampleAIClient.txt">

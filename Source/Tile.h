@@ -12,7 +12,7 @@ public:
   double getPotential() const { return _potential; }
   void setPotential(double potential);
 
-  std::vector<Entity*>* getEntities() const;
+  std::vector<Entity*> getEntities() const;
 
 private:
   double _potential;

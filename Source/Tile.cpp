@@ -10,8 +10,8 @@ void Tile::setPotential(const double potential) {
   _potential = potential;
 }
 
-std::vector<Entity*>* Tile::getEntities() const {
-  std::vector<Entity*> *entities;
+std::vector<Entity*> Tile::getEntities() const {
+  std::vector<Entity*> entities;
   //TODO
   return entities;
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Entity.h"
 #include "Position.h"
 #include "HasTargetPosition.h"
@@ -12,7 +13,7 @@ public:
   ~Unit();
 
   double timeToPosition(Position to) const;
-  std::vector<Unit*>* unitNeighborhood() const;
+  std::vector<Unit*> unitNeighborhood() const;
   double aggressionPotential() const;
 
 private:

@@ -11,49 +11,38 @@ _tiles(width * height) {
 
 Map::~Map() {}
 
-Tile* Map::getTileAt(const unsigned int x, const unsigned int y) {
+Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
   return _tiles[y * _width + x];
 }
 
-Position* Map::getPosition(const unsigned int id) {
+Position* Map::getPosition(const unsigned int id) const {
   return new Position(_width % id, _width / id);
 }
 
 
 void Map::update() {
-
-  for(auto &tile : _tiles) {
-    std::vector<Entity*> * entities = tile->getEntities();
-    for(auto e : *entities) {
+  for(auto tile : _tiles) {
+    auto entities = tile->getEntities();
+    for(auto e : entities)
       tile->setPotential(tile->getPotential() + e->getPotential());
-    }
-    tile->setPotential(tile->getPotential() / entities->size());
+    tile->setPotential(tile->getPotential() / entities.size());
   }
-
   propagatePotential();
-
 }
 
 void Map::propagatePotential() {
-
   std::vector<Tile*> old(_tiles);
-  Tile * neighbor;
+  Tile *neighbor;
   double dist;
 
-  for(unsigned int i = 0; i < old.size(); ++i) {
-
-    for(unsigned int x = 0; x < _width; ++x) {
+  for(unsigned int i = 0; i < old.size(); ++i)
+    for(unsigned int x = 0; x < _width; ++x)
       for(unsigned int y = 0; y < _height; ++y) {
         neighbor = getTileAt(x, y);
         if(neighbor != old[i]) {
-          dist = getPosition(i)->euclidian(getPosition(y * _width + x));
-          if(dist < RADIUS) {
+          dist = getPosition(i)->euclidian(*getPosition(y * _width + x));
+          if(dist < RADIUS)
             neighbor->setPotential(neighbor->getPotential() * old[i]->getPotential() * (1 + cos((dist / RADIUS)*PI) / 2));
-          }
         }
       }
-    }
-
-
-  }
 }

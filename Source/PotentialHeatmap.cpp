@@ -1,6 +1,5 @@
 #include "PotentialHeatmap.h"
 
-
 PotentialHeatmap::PotentialHeatmap(unsigned int width, unsigned int height) {
 
   if(SDL_Init(SDL_INIT_VIDEO) == -1)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
 
 class Position {
 public:
@@ -11,7 +11,7 @@ public:
   unsigned int getX() const { return _x; }
   unsigned int getY() const { return _y; }
 
-  double euclidian(Position* position);
+  double euclidian(const Position &position);
 
 private:
   unsigned int _x, _y;

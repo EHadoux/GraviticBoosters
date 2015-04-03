@@ -1,4 +1,5 @@
 #pragma once
+
 #include "HasPosition.h"
 #include "HasDPSUpgrade.h"
 #include "HasTargetPosition.h"
@@ -15,8 +16,8 @@ public:
   double economicPotential() const;
   double strategicPotential() const;
   double getPotential();
-  int isEnnemy(Entity * other) const;
-  std::vector<Entity*>* neighborhood() const;
+  bool isEnnemy(Entity *other) const;
+  std::vector<Entity*> neighborhood() const;
 
 protected:
   int _minerals, _gas, _dps;

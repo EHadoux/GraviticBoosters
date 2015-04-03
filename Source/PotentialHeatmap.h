@@ -12,12 +12,11 @@ public:
   void update(Map * map, Camera * camera);
 
 private:
+  SDL_Color potentialToColor(double potential);
+
   SDL_Window * _window;
   SDL_Renderer * _renderer;
   SDL_Event _event;
 
   int _width, _height, _tileW, _tileH;
-
-  SDL_Color potentialToColor(double potential);
-
 };

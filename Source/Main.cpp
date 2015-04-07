@@ -87,14 +87,16 @@ int main(int argc, const char* argv[]) {
           break;
         case BWAPI::EventType::UnitCreate:
           u = e.getUnit();
-          p = u->getPosition();
           ut = u->getBuildType();
+          if(ut.isNeutral())
+            break;
+          p = u->getPosition();
           w = ut.groundWeapon();
           //Verifier le cooldown -> c'est un int, bizarre
           //Min et gaz a 0 -> encore plus bizarre
           unit = new Unit(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / w.damageCooldown(),
-                                u->getVelocityX(), u->getVelocityY());
-          GraviticBooster::addUnit(unit);          
+                          u->getVelocityX(), u->getVelocityY());
+          GraviticBooster::addUnit(unit);
           std::cout << *unit << std::endl;
           delete unit;
           break;

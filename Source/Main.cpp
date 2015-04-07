@@ -1,6 +1,7 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
 #include "Unit.h"
+#include "Building.h"
 #include "Position.h"
 #include "GraviticBooster.h"
 
@@ -76,6 +77,7 @@ int main(int argc, const char* argv[]) {
         BWAPI::UnitType ut;
         BWAPI::WeaponType w;
         Unit *unit;
+        Building *building;
         switch(e.getType()) {
         case BWAPI::EventType::MatchEnd:
           break;
@@ -87,18 +89,22 @@ int main(int argc, const char* argv[]) {
           break;
         case BWAPI::EventType::UnitCreate:
           u = e.getUnit();
-          ut = u->getBuildType();
-          if(ut.isNeutral())
+          ut = u->getType();
+          if(ut.isNeutral() || ut == BWAPI::UnitTypes::Zerg_Larva)
             break;
           p = u->getPosition();
           w = ut.groundWeapon();
-          //Verifier le cooldown -> c'est un int, bizarre
-          //Min et gaz a 0 -> encore plus bizarre
-          unit = new Unit(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / w.damageCooldown(),
-                          u->getVelocityX(), u->getVelocityY());
-          GraviticBooster::addUnit(unit);
-          std::cout << *unit << std::endl;
-          delete unit;
+          if(ut.isBuilding()) {
+            building = new Building(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice());
+            std::cout << *building << std::endl;
+            delete building;
+          } else {
+            unit = new Unit(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / (double)w.damageCooldown(),
+                            ut.topSpeed());
+            //GraviticBooster::addUnit(unit);
+            std::cout << *unit << std::endl;
+            delete unit;
+          }          
           break;
         case BWAPI::EventType::UnitDestroy:
           break;

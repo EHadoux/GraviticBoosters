@@ -1,6 +1,8 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
 #include "Unit.h"
+#include "Position.h"
+#include "GraviticBooster.h"
 
 #include <iostream>
 #include <thread>
@@ -34,6 +36,7 @@ int main(int argc, const char* argv[]) {
   while(true) {
     waitForAMatch();
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
+    BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
 
     if(BWAPI::Broodwar->isReplay()) {
       BWAPI::Broodwar << "The following players are in this replay:" << std::endl;
@@ -68,6 +71,11 @@ int main(int argc, const char* argv[]) {
     }
     while(BWAPI::Broodwar->isInGame()) {
       for(auto &e : BWAPI::Broodwar->getEvents()) {
+        BWAPI::Unit u;
+        BWAPI::Position p;
+        BWAPI::UnitType ut;
+        BWAPI::WeaponType w;
+        Unit *unit;
         switch(e.getType()) {
         case BWAPI::EventType::MatchEnd:
           break;
@@ -78,6 +86,17 @@ int main(int argc, const char* argv[]) {
         case BWAPI::EventType::NukeDetect:
           break;
         case BWAPI::EventType::UnitCreate:
+          u = e.getUnit();
+          p = u->getPosition();
+          ut = u->getBuildType();
+          w = ut.groundWeapon();
+          //Verifier le cooldown -> c'est un int, bizarre
+          //Min et gaz a 0 -> encore plus bizarre
+          unit = new Unit(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / w.damageCooldown(),
+                                u->getVelocityX(), u->getVelocityY());
+          GraviticBooster::addUnit(unit);          
+          std::cout << *unit << std::endl;
+          delete unit;
           break;
         case BWAPI::EventType::UnitDestroy:
           break;

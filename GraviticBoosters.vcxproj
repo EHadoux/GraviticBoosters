@@ -28,6 +28,7 @@
     <ClInclude Include="Source\Building.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\GraviticBooster.h" />
     <ClInclude Include="Source\Helpers.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Observer.h" />

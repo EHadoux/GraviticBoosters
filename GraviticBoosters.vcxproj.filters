@@ -71,6 +71,9 @@
     <ClInclude Include="Source\Unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GraviticBooster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\ExampleAIClient.txt">

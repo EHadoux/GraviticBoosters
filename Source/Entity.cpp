@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <sstream>
 
 Entity::Entity(Position position, const unsigned int minerals, const unsigned int gas) :
 _position(position) {
@@ -24,4 +25,15 @@ double Entity::economicPotential() const {
 
 double Entity::strategicPotential() const {
   return 0.0;
+}
+
+std::string Entity::toString() const {
+  std::stringstream s;
+  s << "Entity at [" << _position.getX() << "," << _position.getY() << "] costs "
+    << _minerals << " min and " << _gas << " gas";
+  return s.str();
+}
+
+std::ostream& operator<< (std::ostream &stream, const Entity& unit) {
+  return stream << unit.toString();
 }

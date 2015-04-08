@@ -3,10 +3,13 @@
 #define PI 3.141592653
 #define RADIUS 10
 
-Map::Map(const unsigned int width, const unsigned int height) :
+Map::Map(const unsigned int width, const unsigned int height, const unsigned int tilew, const unsigned int tileh) :
 _tiles(width * height) {
   _width = width;
   _height = height;
+
+  for(unsigned int i = 0; i < _tiles.size(); ++i)
+    _tiles[i] = new Tile((_width % i)*tilew, (_width / i)*tileh);
 }
 
 Map::~Map() {}
@@ -26,6 +29,7 @@ void Map::update() {
     for(auto e : entities)
       tile->setPotential(tile->getPotential() + e->getPotential());
     tile->setPotential(tile->getPotential() / entities.size());
+    std::cout << "update tile" << std::endl;
   }
   propagatePotential();
 }
@@ -42,7 +46,7 @@ void Map::propagatePotential() {
         if(neighbor != old[i]) {
           dist = getPosition(i)->euclidian(*getPosition(y * _width + x));
           if(dist < RADIUS)
-            neighbor->setPotential(neighbor->getPotential() * old[i]->getPotential() * (1 + cos((dist / RADIUS)*PI) / 2));
+            neighbor->setPotential((neighbor->getPotential() + old[i]->getPotential() * (1 + cos((dist / RADIUS)*PI) / 2)) / 2);
         }
       }
 }

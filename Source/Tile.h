@@ -11,9 +11,10 @@ public:
 
   double getPotential() const { return _potential; }
   void setPotential(double potential);
-
+  Position getCenterPosition() const { return _centerPos; }
   std::vector<Entity*> getEntities() const;
 
 private:
+  Position _centerPos;
   double _potential;
 };

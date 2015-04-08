@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile(unsigned int x, unsigned int y) {
+Tile::Tile(unsigned int x, unsigned int y) : _centerPos(x, y) {
   _potential = 0.0;
 }
 

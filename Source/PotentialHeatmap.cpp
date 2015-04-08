@@ -2,18 +2,21 @@
 
 PotentialHeatmap::PotentialHeatmap(unsigned int width, unsigned int height) {
 
+  std::cout << "Starting SDL..." << std::endl;;
   if(SDL_Init(SDL_INIT_VIDEO) == -1)
     exit(EXIT_FAILURE);
 
   _width = width;
   _height = height;
 
+  std::cout << "Create window..." << std::endl;;
   _window = SDL_CreateWindow("GraviticBoosters (heatmap)",
                              SDL_WINDOWPOS_UNDEFINED,
                              SDL_WINDOWPOS_UNDEFINED,
                              width, height,
-                             SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+                             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
+  std::cout << "Create renderer..." << std::endl;;
   _renderer = SDL_CreateRenderer(_window, 0, SDL_RENDERER_ACCELERATED);
 
 }

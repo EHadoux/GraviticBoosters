@@ -6,7 +6,7 @@
 
 class Map {
 public:
-  Map(unsigned int w, unsigned int h);
+  Map(const unsigned int width, const unsigned int height, const unsigned int tilew, const unsigned int tileh);
   ~Map();
 
   unsigned int getWidth() const { return _width; }
@@ -14,9 +14,9 @@ public:
 
   Tile* getTileAt(unsigned int x, unsigned int y) const;
   Position* getPosition(unsigned int id) const;
+  void update();
 
 private:
-  void update();
   void propagatePotential();
 
   unsigned int _width, _height;

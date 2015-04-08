@@ -3,6 +3,7 @@
 #include "Unit.h"
 #include "Building.h"
 #include "Position.h"
+#include "Map.h"
 #include "GraviticBooster.h"
 
 #include <iostream>
@@ -33,13 +34,18 @@ void waitForAMatch() {
 
 int main(int argc, const char* argv[]) {
   BWAPI::Unitset units;
+  //Map * map;
+  //PotentialHeatmap * phm;
+  //Camera * camera;
   std::cout << "Connecting..." << std::endl;;
   reconnect();
   while(true) {
     waitForAMatch();
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
-
+    //map = new Map(BWAPI::Broodwar->mapWidth()/10;BWAPI::Broodwar->mapHeight()/10);
+    //phm = new PotentialHeatmapPotentialHeatmap(800,600);
+    //camera = new Camera(new Position(BWAPI::Broodwar->mapWidth()/2,BWAPI::Broodwar->mapHeight()/2));
     if(BWAPI::Broodwar->isReplay()) {
       BWAPI::Broodwar << "The following players are in this replay:" << std::endl;
       BWAPI::Playerset players = BWAPI::Broodwar->getPlayers();
@@ -126,7 +132,9 @@ int main(int argc, const char* argv[]) {
             break;
           e->getPosition().update(pos.x, pos.y);
           std::cout << *entities[u->getReplayID()] << std::endl;
-        }
+        } 
+        //map->update();
+        //phm->update(map,camera);
       }
       reconnecting();
     }

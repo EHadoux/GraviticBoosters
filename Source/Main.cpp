@@ -4,6 +4,7 @@
 #include "Building.h"
 #include "Position.h"
 #include "Map.h"
+#include "PotentialHeatmap.h"
 #include "GraviticBooster.h"
 
 #include <iostream>
@@ -33,24 +34,26 @@ void waitForAMatch() {
   std::cout << "starting match!" << std::endl;
 }
 
-int main(int argc, const char* argv[]) {
+int main(int argc, char *argv[]) {
   BWAPI::Unitset units;
   std::vector<BWAPI::Unit> bases;
-  //Map * map;
-  //PotentialHeatmap * phm;
-  //Camera * camera;
+  Map * map;
+  PotentialHeatmap * phm;
+  Camera * camera;
+  Position * initPosCam;
   std::cout << "Connecting..." << std::endl;;
   reconnect();
   while(true) {
     waitForAMatch();
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
-    //map = new Map(BWAPI::Broodwar->mapWidth()/10;BWAPI::Broodwar->mapHeight()/10);
-    //phm = new PotentialHeatmapPotentialHeatmap(800,600);
-    //camera = new Camera(new Position(BWAPI::Broodwar->mapWidth()/2,BWAPI::Broodwar->mapHeight()/2));
+    initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
+    map = new Map(BWAPI::Broodwar->mapWidth() / 10, BWAPI::Broodwar->mapHeight() / 10, 10, 10);
+    phm = new PotentialHeatmap(800, 600);
+    camera = new Camera(*initPosCam);
     if(BWAPI::Broodwar->isReplay()) {
       BWAPI::Broodwar << "The following players are in this replay:" << std::endl;
-      BWAPI::Playerset players = BWAPI::Broodwar->getPlayers();      
+      BWAPI::Playerset players = BWAPI::Broodwar->getPlayers();
       for(auto p : players) {
         if(!p->getUnits().empty() && !p->isNeutral()) {
           BWAPI::Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
@@ -62,31 +65,31 @@ int main(int argc, const char* argv[]) {
       GraviticBooster::setMaxDistance(bases[0]->getDistance(bases[1]));
     } /*else {
       if(BWAPI::Broodwar->enemy())
-        BWAPI::Broodwar << "The match up is " << BWAPI::Broodwar->self()->getRace() << " vs "
-        << BWAPI::Broodwar->enemy()->getRace() << std::endl;
+      BWAPI::Broodwar << "The match up is " << BWAPI::Broodwar->self()->getRace() << " vs "
+      << BWAPI::Broodwar->enemy()->getRace() << std::endl;
 
       //send each worker to the mineral field that is closest to it
       units = BWAPI::Broodwar->self()->getUnits();
       BWAPI::Unitset minerals = BWAPI::Broodwar->getMinerals();
       for(auto &u : units) {
-        if(u->getType().isWorker()) {
-          BWAPI::Unit closestMineral = nullptr;
+      if(u->getType().isWorker()) {
+      BWAPI::Unit closestMineral = nullptr;
 
-          for(auto &m : minerals) {
-            if(!closestMineral || u->getDistance(m) < u->getDistance(closestMineral))
-              closestMineral = m;
-          }
-          if(closestMineral)
-            u->rightClick(closestMineral);
-        } else if(u->getType().isResourceDepot()) {
-          //if this is a center, tell it to build the appropiate type of worker
-          u->train(BWAPI::Broodwar->self()->getRace().getWorker());
-        }
+      for(auto &m : minerals) {
+      if(!closestMineral || u->getDistance(m) < u->getDistance(closestMineral))
+      closestMineral = m;
       }
-    }*/
+      if(closestMineral)
+      u->rightClick(closestMineral);
+      } else if(u->getType().isResourceDepot()) {
+      //if this is a center, tell it to build the appropiate type of worker
+      u->train(BWAPI::Broodwar->self()->getRace().getWorker());
+      }
+      }
+      }*/
     std::unordered_map<int, Entity*> entities;
     while(BWAPI::Broodwar->isInGame()) {
-      for(auto &e : BWAPI::Broodwar->getEvents()) {
+      for(auto e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;
         BWAPI::Position p;
         BWAPI::UnitType ut;
@@ -110,19 +113,19 @@ int main(int argc, const char* argv[]) {
           p = u->getPosition();
           w = ut.groundWeapon();
           if(ut.isBuilding()) {
-            entities[u->getReplayID()] = new Building(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), 
-                                                      w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID());
-            std::cout << *dynamic_cast<Building*>(entities[u->getReplayID()]) << std::endl;
+            entities[u->getID()] = new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+                                                w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID());
+            std::cout << *dynamic_cast<Building*>(entities[u->getID()]) << std::endl;
           } else {
-            entities[u->getReplayID()] = new Unit(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), 
-                                                  w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID());
-            std::cout << *dynamic_cast<Unit*>(entities[u->getReplayID()]) << std::endl;
+            entities[u->getID()] = new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+                                            w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID());
+            std::cout << *dynamic_cast<Unit*>(entities[u->getID()]) << std::endl;
             //GraviticBooster::addUnit(unit);
-          }          
+          }
           break;
         case BWAPI::EventType::UnitDestroy:
           u = e.getUnit();
-          delete entities[u->getReplayID()];
+          delete entities[u->getID()];
           break;
         case BWAPI::EventType::UnitMorph:
           break;
@@ -133,22 +136,23 @@ int main(int argc, const char* argv[]) {
         case BWAPI::EventType::UnitRenegade:
           break;
         }
-        BWAPI::Position pos;
-        Entity* e;
-        for(auto u : BWAPI::Broodwar->getAllUnits()) {
-          pos = u->getPosition();
-          auto it = entities.find(u->getReplayID());
-          if(it == entities.end())
-            break;
-          e = it->second;
-          e->getPosition().update(pos.x, pos.y);
-          pos = u->getClosestUnit(BWAPI::Filter::IsEnemy)->getPosition();
-          e->setClosestEnemyPosition(Position(pos.x, pos.y));
-          std::cout << *entities[u->getReplayID()] << std::endl;
-        } 
-        //map->update();
-        //phm->update(map,camera);
       }
+      BWAPI::Position pos;
+      BWAPI::Unit u, enemy;
+      for(auto entity : entities) {
+        u = BWAPI::Broodwar->getUnit(entity.second->getId());
+        pos = u->getPosition();
+        entity.second->getPosition().update(pos.x, pos.y);
+        enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
+        if(enemy) {
+          pos = enemy->getPosition();
+          entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
+        }
+      }
+      std::cout << "Updating map" << std::endl;
+      map->update();
+      std::cout << "Refreshing the heatmap..." << std::endl;
+      phm->update(map, camera);
       reconnecting();
     }
     std::cout << "Game ended" << std::endl;

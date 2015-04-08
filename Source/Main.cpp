@@ -10,6 +10,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
+#include <unordered_map>
 
 void reconnect() {
   while(!BWAPI::BWAPIClient.connect()) {
@@ -77,7 +78,7 @@ int main(int argc, const char* argv[]) {
         }
       }
     }
-    std::map<int, Entity*> entities;
+    std::unordered_map<int, Entity*> entities;
     while(BWAPI::Broodwar->isInGame()) {
       for(auto &e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;
@@ -103,13 +104,12 @@ int main(int argc, const char* argv[]) {
           p = u->getPosition();
           w = ut.groundWeapon();
           if(ut.isBuilding()) {
-            entities[u->getReplayID()] = new Building(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice());
-            //delete building;
+            entities[u->getReplayID()] = new Building(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), 
+                                                      w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID());
           } else {
-            entities[u->getReplayID()] = new Unit(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / (double)w.damageCooldown(),
-                                                  ut.topSpeed());
+            entities[u->getReplayID()] = new Unit(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), 
+                                                  w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID());
             //GraviticBooster::addUnit(unit);
-            //delete unit;
           }
           break;
         case BWAPI::EventType::UnitDestroy:
@@ -139,6 +139,8 @@ int main(int argc, const char* argv[]) {
       reconnecting();
     }
     std::cout << "Game ended" << std::endl;
+    for(auto p : entities)
+      delete std::get<1>(p);
   }
   std::cout << "Press ENTER to continue..." << std::endl;
   std::cin.ignore();

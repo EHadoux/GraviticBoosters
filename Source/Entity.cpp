@@ -1,19 +1,29 @@
 #include "Entity.h"
 #include <sstream>
 
-Entity::Entity(int id, Position position, const unsigned int minerals, const unsigned int gas) :
+Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas, 
+               const double dpf, const unsigned int owner) :
 _position(position) {
   _id = id;
   _minerals = minerals;
   _gas = gas;
+  _owner = owner;
+  _dpf = dpf;
 }
 
 Entity::~Entity() {}
 
-std::vector<Entity*> Entity::neighborhood() {
+std::vector<Entity*> Entity::neighborhood() const {
   std::vector<Entity*> neighbors;
-
+  //TODO
   return neighbors;
+}
+
+double Entity::getPotential() const {
+  double ap = aggressionPotential();
+  double sp = strategicPotential();
+  double ep = economicPotential();
+  return fmax(ap, fmax(sp, ep));
 }
 
 double Entity::aggressionPotential() const {
@@ -26,6 +36,10 @@ double Entity::economicPotential() const {
 
 double Entity::strategicPotential() const {
   return 0.0;
+}
+
+bool Entity::isEnnemy(const Entity &other) const { 
+  return _owner != other._owner;
 }
 
 std::string Entity::toString() const {

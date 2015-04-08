@@ -6,7 +6,7 @@
 
 class Unit : public Entity {
 public:
-  Unit(Position position, unsigned int minerals, unsigned int gas, double dpf, double velocity);
+  Unit(int id, Position position, unsigned int minerals, unsigned int gas, double dpf, double velocity);
   ~Unit();
   double timeToPosition(Position to);
 

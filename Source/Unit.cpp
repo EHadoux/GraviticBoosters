@@ -2,8 +2,8 @@
 #include <sstream>
 #include "Unit.h"
 
-Unit::Unit(Position position, const unsigned int minerals, const unsigned int gas, const double dpf, const double velocity) :
-Entity(position, minerals, gas) {
+Unit::Unit(int id, Position position, const unsigned int minerals, const unsigned int gas, const double dpf, const double velocity) :
+Entity(id, position, minerals, gas) {
   _velocity = velocity;
   _dpf = dpf;
 }

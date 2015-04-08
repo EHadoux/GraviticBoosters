@@ -1,8 +1,9 @@
 #include "Entity.h"
 #include <sstream>
 
-Entity::Entity(Position position, const unsigned int minerals, const unsigned int gas) :
+Entity::Entity(int id, Position position, const unsigned int minerals, const unsigned int gas) :
 _position(position) {
+  _id = id;
   _minerals = minerals;
   _gas = gas;
 }

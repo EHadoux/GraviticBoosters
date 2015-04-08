@@ -32,6 +32,7 @@ void waitForAMatch() {
 }
 
 int main(int argc, const char* argv[]) {
+  BWAPI::Unitset units;
   std::cout << "Connecting..." << std::endl;;
   reconnect();
   while(true) {
@@ -52,7 +53,7 @@ int main(int argc, const char* argv[]) {
         << BWAPI::Broodwar->enemy()->getRace() << std::endl;
 
       //send each worker to the mineral field that is closest to it
-      BWAPI::Unitset units = BWAPI::Broodwar->self()->getUnits();
+      units = BWAPI::Broodwar->self()->getUnits();
       BWAPI::Unitset minerals = BWAPI::Broodwar->getMinerals();
       for(auto &u : units) {
         if(u->getType().isWorker()) {
@@ -70,14 +71,15 @@ int main(int argc, const char* argv[]) {
         }
       }
     }
+    std::map<int, Entity*> entities;
     while(BWAPI::Broodwar->isInGame()) {
       for(auto &e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;
         BWAPI::Position p;
         BWAPI::UnitType ut;
         BWAPI::WeaponType w;
-        Unit *unit;
-        Building *building;
+        //Unit *unit;
+        //Building *building;
         switch(e.getType()) {
         case BWAPI::EventType::MatchEnd:
           break;
@@ -95,16 +97,14 @@ int main(int argc, const char* argv[]) {
           p = u->getPosition();
           w = ut.groundWeapon();
           if(ut.isBuilding()) {
-            building = new Building(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice());
-            std::cout << *building << std::endl;
-            delete building;
+            entities[u->getReplayID()] = new Building(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice());
+            //delete building;
           } else {
-            unit = new Unit(Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / (double)w.damageCooldown(),
-                            ut.topSpeed());
+            entities[u->getReplayID()] = new Unit(u->getReplayID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(), w.damageAmount() / (double)w.damageCooldown(),
+                                                  ut.topSpeed());
             //GraviticBooster::addUnit(unit);
-            std::cout << *unit << std::endl;
-            delete unit;
-          }          
+            //delete unit;
+          }
           break;
         case BWAPI::EventType::UnitDestroy:
           break;
@@ -117,8 +117,17 @@ int main(int argc, const char* argv[]) {
         case BWAPI::EventType::UnitRenegade:
           break;
         }
+        BWAPI::Position pos;
+        Entity* e;
+        for(auto &u : units) {
+          pos = u->getPosition();
+          e = entities[u->getReplayID()];
+          if(e == NULL)
+            break;
+          e->getPosition().update(pos.x, pos.y);
+          std::cout << *entities[u->getReplayID()] << std::endl;
+        }
       }
-
       reconnecting();
     }
     std::cout << "Game ended" << std::endl;

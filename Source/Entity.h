@@ -6,10 +6,11 @@
 
 class Entity {
 public:
-  Entity(Position position, unsigned int minerals, unsigned int gas);
+  Entity(int id, Position position, unsigned int minerals, unsigned int gas);
   ~Entity();
 
   Position getPosition() const { return _position; }
+  int getId() const { return _id; }
 
   double aggressionPotential() const;
   double economicPotential() const;
@@ -19,9 +20,9 @@ public:
 
   std::string toString() const;
 
-  friend std::ostream& operator<< (std::ostream &stream, const Entity& unit);  
+  friend std::ostream& operator<< (std::ostream &stream, const Entity& unit);
 
 protected:
   Position _position;
-  int _minerals, _gas;
+  int _id, _minerals, _gas;
 };

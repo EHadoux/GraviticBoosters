@@ -6,6 +6,8 @@ public:
   Position(const Position &orig);
   ~Position();
 
+  void update(unsigned int x, unsigned int y);
+
   unsigned int getX() const { return _x; }
   unsigned int getY() const { return _y; }
 

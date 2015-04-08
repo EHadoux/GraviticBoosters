@@ -17,6 +17,6 @@ void Position::update(const unsigned int x, const unsigned int y) {
 
 Position::~Position() {}
 
-double Position::euclidian(const Position &position) {
+double Position::euclidian(const Position &position) const {
   return sqrt(pow((double)position._x - _x, 2) + pow((double)position._y - _y, 2));
 }

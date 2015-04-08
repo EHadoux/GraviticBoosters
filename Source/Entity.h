@@ -12,6 +12,8 @@ public:
   virtual ~Entity();
 
   Position getPosition() const { return _position; }
+  Position getClosestEnemyPosition() const { return _closestEnemyPosition; }
+  void setClosestEnemyPosition(const Position &position) { _closestEnemyPosition = position; }
   int getId() const { return _id; }
 
   virtual double aggressionPotential() const;
@@ -26,7 +28,7 @@ public:
   friend std::ostream& operator<< (std::ostream &stream, const Entity& unit);
 
 protected:
-  Position _position;
+  Position _position, _closestEnemyPosition;
   unsigned int _id, _minerals, _gas, _owner;
   double _dpf;
 };

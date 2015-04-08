@@ -3,7 +3,7 @@
 
 Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas, 
                const double dpf, const unsigned int owner) :
-_position(position) {
+_position(position), _closestEnemyPosition(0,0) {
   _id = id;
   _minerals = minerals;
   _gas = gas;

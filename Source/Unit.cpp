@@ -1,4 +1,5 @@
 #include "Unit.h"
+#include "GraviticBooster.h"
 #include <cmath>
 #include <algorithm>
 #include <sstream>
@@ -12,7 +13,7 @@ Entity(id, position, minerals, gas, dpf, owner) {
 Unit::~Unit() {}
 
 double Unit::aggressionPotential() const {
-  double pa = 0.0;
+  //double pa = 0.0;
   /*for(auto e : neighborhood()) {
     Position target = getTargetPosition();
     if(isEnnemy(e) && e->getPosition().euclidian(&getPosition()) > e->getPosition().euclidian(&target)) {
@@ -21,7 +22,7 @@ double Unit::aggressionPotential() const {
   }*/
 
   // TODO Normaliser entre 0 et 1
-  return pa;
+  return 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance();
 }
 
 double Unit::timeToPosition(Position to) const {
@@ -41,7 +42,8 @@ std::vector<Unit*> Unit::unitNeighborhood() const {
 
 std::string Unit::toString() const {
   std::stringstream s;
-  s << Entity::toString() << " with velocity " << _velocity << " and dpf " << _dpf;
+  s << Entity::toString() << " with velocity " << _velocity << " and dpf " << _dpf << " potential are: [" << aggressionPotential() 
+    << ", " << economicPotential() << ", " << strategicPotential() << "]";
   return s.str();
 }
 

@@ -17,6 +17,7 @@
     <Text Include="Source\ExampleAIClient.txt">
       <FileType>CppCode</FileType>
     </Text>
+    <ClCompile Include="Source\GraviticBoosters.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Observer.cpp" />

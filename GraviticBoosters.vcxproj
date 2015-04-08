@@ -21,6 +21,7 @@
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Observer.cpp" />
     <ClCompile Include="Source\Position.cpp" />
+    <ClCompile Include="Source\PotentialHeatmap.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Observer.h" />
     <ClInclude Include="Source\Position.h" />
+    <ClInclude Include="Source\PotentialHeatmap.h" />
     <ClInclude Include="Source\Tile.h" />
     <ClInclude Include="Source\Unit.h" />
   </ItemGroup>
@@ -67,7 +69,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -92,7 +96,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lib/BWAPI.lib;lib/BWAPIClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lib/BWAPI.lib;lib/BWAPIClient.lib;lib/SDL2.lib;lib/SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -9,14 +9,17 @@ HasPosition(position), HasDPSUpgrade() {
 
 Entity::~Entity() {}
 
-std::vector<Entity*>* Entity::neighborhood() const {
-  std::vector<Entity*> *neighbors;
+std::vector<Entity*> Entity::neighborhood() const {
+  std::vector<Entity*> neighbors;
   //TODO
   return neighbors;
 }
 
-double Entity::aggressionPotential() const {
-  return 0.0;
+double Entity::getPotential() {
+  double ap = aggressionPotential();
+  double sp = strategicPotential();
+  double ep = economicPotential();
+  return fmax(ap, fmax(sp, ep));
 }
 
 double Entity::economicPotential() const {
@@ -25,4 +28,10 @@ double Entity::economicPotential() const {
 
 double Entity::strategicPotential() const {
   return 0.0;
+}
+
+bool Entity::isEnnemy(Entity *other) const {
+  // TODO
+
+  return false;
 }

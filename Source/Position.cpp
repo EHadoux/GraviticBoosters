@@ -11,3 +11,7 @@ Position::Position(const Position &orig) {
 }
 
 Position::~Position() {}
+
+double Position::euclidian(const Position &position) {
+  return sqrt(pow((double)position._x - _x, 2) + pow((double)position._y - _y, 2));
+}

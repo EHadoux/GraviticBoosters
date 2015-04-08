@@ -8,12 +8,17 @@ Entity(position, minerals, gas, dps) {
 
 Building::~Building() {}
 
-std::vector<Building*>* Building::buildingNeighborhood() const {
+std::vector<Building*> Building::buildingNeighborhood() const {
   auto neighbors = neighborhood();
-  auto bneighbors = new std::vector<Building*>();
-  for(auto e : *neighbors) {
+  auto bneighbors = std::vector<Building*>();
+  for(auto e : neighbors) {
     auto b = dynamic_cast<Building*>(e);
-    if(b) bneighbors->push_back(b);
+    if(b) bneighbors.push_back(b);
   }
   return bneighbors;
+}
+
+double Building::aggressionPotential() const {
+  // TODO
+  return 0.0;
 }

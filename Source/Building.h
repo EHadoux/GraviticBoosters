@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Entity.h"
 #include <vector>
 
@@ -9,7 +10,8 @@ public:
 
   bool getVisibility() const { return _seen; }
   void setVisibility(bool seen) { _seen = seen; }
-  std::vector<Building*>* buildingNeighborhood() const;
+  std::vector<Building*> buildingNeighborhood() const;
+  double aggressionPotential() const;
 
 private:
   bool _seen;

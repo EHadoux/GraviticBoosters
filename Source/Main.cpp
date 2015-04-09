@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
     initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
-    map = new Map(BWAPI::Broodwar->mapWidth() / 10, BWAPI::Broodwar->mapHeight() / 10, 10, 10);
+    map = new Map(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight(), 10, 10);
     phm = new PotentialHeatmap(800, 600);
     camera = new Camera(*initPosCam);
     if(BWAPI::Broodwar->isReplay()) {

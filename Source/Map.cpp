@@ -1,15 +1,19 @@
 #include "Map.h"
+#include <algorithm>
 
 #define PI 3.141592653
 #define RADIUS 10
 
-Map::Map(const unsigned int width, const unsigned int height, const unsigned int tilew, const unsigned int tileh) :
-_tiles(width * height) {
+Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
+_tiles(numOfTilesH * numOfTilesV) {
   _width = width;
   _height = height;
-
-  for(unsigned int i = 0; i < _tiles.size(); ++i)
-    _tiles[i] = new Tile((_width % i)*tilew, (_width / i)*tileh);
+  _numOfTilesH = numOfTilesH;
+  _numOfTilesV = numOfTilesV;
+  unsigned int tileH = _height / numOfTilesV, tileW = width / numOfTilesV;
+  for(unsigned int x = 0; x < numOfTilesH; x++)
+    for(unsigned int y = 0; y < numOfTilesV; y++)
+      _tiles[y * numOfTilesH + x] = new Tile((tileW / 2) + x * tileW, (tileH / 2) + y * tileH);
 }
 
 Map::~Map() {
@@ -18,11 +22,11 @@ Map::~Map() {
 }
 
 Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
-  return _tiles[y * _width + x];
+  return _tiles[y * _numOfTilesH + x];
 }
 
-Position* Map::getPosition(const unsigned int id) const {
-  return new Position(_width % id, _width / id);
+Position Map::getPosition(const unsigned int id) const {
+  return Position(id % _numOfTilesH, id / _numOfTilesH);
 }
 
 
@@ -38,18 +42,19 @@ void Map::update() {
 }
 
 void Map::propagatePotential() {
-  std::vector<Tile*> old(_tiles);
+  std::vector<double> old;
+  std::transform(_tiles.begin(), _tiles.end(), old.begin(), [](Tile *t) {return t->getPotential(); });
   Tile *neighbor;
   double dist;
 
   for(unsigned int i = 0; i < old.size(); ++i)
     for(unsigned int x = 0; x < _width; ++x)
       for(unsigned int y = 0; y < _height; ++y) {
+        if(i == (y * _numOfTilesH + x))
+          continue;
         neighbor = getTileAt(x, y);
-        if(neighbor != old[i]) {
-          dist = getPosition(i)->euclidian(*getPosition(y * _width + x));
-          if(dist < RADIUS)
-            neighbor->setPotential((neighbor->getPotential() + old[i]->getPotential() * (1 + cos((dist / RADIUS)*PI) / 2)) / 2);
-        }
+        dist = getPosition(i).euclidian(getPosition(y * _width + x));
+        if(dist < RADIUS)
+          neighbor->setPotential((neighbor->getPotential() + old[i] * (1 + cos((dist / RADIUS)*PI) / 2)) / 2);
       }
 }

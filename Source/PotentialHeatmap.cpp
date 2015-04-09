@@ -39,8 +39,8 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
   r.w = _tileW;
   r.h = _tileH;
 
-  for(unsigned int w = 0; w < map->getWidth(); w++) {
-    for(unsigned int h = 0; h < map->getHeight(); h++) {
+  for(unsigned int w = 0; w < map->getNumOfTilesH(); w++) {
+    for(unsigned int h = 0; h < map->getNumOfTilesV(); h++) {
       tile = map->getTileAt(w, h);
       color = potentialToColor(tile->getPotential());
       r.x = _tileW * w;

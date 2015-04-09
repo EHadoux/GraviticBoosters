@@ -11,7 +11,6 @@
 #include <thread>
 #include <chrono>
 #include <string>
-#include <unordered_map>
 
 void reconnect() {
   while(!BWAPI::BWAPIClient.connect()) {
@@ -48,7 +47,7 @@ int main(int argc, char *argv[]) {
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
     initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
-    map = new Map(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight(), 10, 10);
+    map = new Map(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight(), 50, 50);
     phm = new PotentialHeatmap(800, 600);
     camera = new Camera(*initPosCam);
     if(BWAPI::Broodwar->isReplay()) {
@@ -87,7 +86,6 @@ int main(int argc, char *argv[]) {
       }
       }
       }*/
-    std::unordered_map<int, Entity*> entities;
     while(BWAPI::Broodwar->isInGame()) {
       for(auto e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;
@@ -112,20 +110,16 @@ int main(int argc, char *argv[]) {
             break;
           p = u->getPosition();
           w = ut.groundWeapon();
-          if(ut.isBuilding()) {
-            entities[u->getID()] = new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-                                                w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID());
-            std::cout << *dynamic_cast<Building*>(entities[u->getID()]) << std::endl;
-          } else {
-            entities[u->getID()] = new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-                                            w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID());
-            std::cout << *dynamic_cast<Unit*>(entities[u->getID()]) << std::endl;
-            //GraviticBooster::addUnit(unit);
-          }
+          if(ut.isBuilding())
+            GraviticBooster::getEntities()[u->getID()] = new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+            w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID());
+          else
+            GraviticBooster::getEntities()[u->getID()] = new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+            w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID());
           break;
         case BWAPI::EventType::UnitDestroy:
           u = e.getUnit();
-          delete entities[u->getID()];
+          delete  GraviticBooster::getEntities()[u->getID()];
           break;
         case BWAPI::EventType::UnitMorph:
           break;
@@ -139,7 +133,7 @@ int main(int argc, char *argv[]) {
       }
       BWAPI::Position pos;
       BWAPI::Unit u, enemy;
-      for(auto entity : entities) {
+      for(auto entity : GraviticBooster::getEntities()) {
         u = BWAPI::Broodwar->getUnit(entity.second->getId());
         pos = u->getPosition();
         entity.second->setPosition(Position(pos.x, pos.y));
@@ -149,14 +143,12 @@ int main(int argc, char *argv[]) {
           entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
         }
       }
-      std::cout << "Updating map" << std::endl;
       map->update();
-      std::cout << "Refreshing the heatmap..." << std::endl;
       phm->update(map, camera);
       reconnecting();
     }
     std::cout << "Game ended" << std::endl;
-    for(auto p : entities)
+    for(auto p : GraviticBooster::getEntities())
       delete p.second;
   }
   std::cout << "Press ENTER to continue..." << std::endl;

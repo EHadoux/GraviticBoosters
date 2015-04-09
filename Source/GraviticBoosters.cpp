@@ -1,4 +1,4 @@
 #include "GraviticBooster.h"
 
-std::set<Unit*> GraviticBooster::_units;
+std::unordered_map<int, Entity*> GraviticBooster::_entities;
 double GraviticBooster::_maxDistance;

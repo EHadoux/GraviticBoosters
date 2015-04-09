@@ -22,16 +22,18 @@ PotentialHeatmap::PotentialHeatmap(unsigned int width, unsigned int height) {
 }
 
 PotentialHeatmap::~PotentialHeatmap() {
+  SDL_DestroyWindow(_window);
   SDL_Quit();
 }
 
 
 void PotentialHeatmap::update(Map * map, Camera * camera) {
 
-  _tileW = _width / map->getWidth();
-  _tileH = _height / map->getHeight();
+  _tileW = _width / map->getNumOfTilesV();
+  _tileH = _height / map->getNumOfTilesH();
 
   SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+  SDL_RenderClear(_renderer);
 
   SDL_Color color;
   SDL_Rect r;
@@ -51,24 +53,14 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
   }
 
   SDL_SetRenderDrawColor(_renderer, 60, 60, 60, 255);
-
-  r.w = _width;
-  r.h = 1;
-  r.y = 0;
-  for(unsigned int i = 0; i < map->getWidth(); i++) {
-    r.x = i*_tileW;
-    SDL_RenderFillRect(_renderer, &r);
-  }
-
-  r.w = 1;
-  r.h = _height;
-  r.x = 0;
-  for(unsigned int j = 0; j < map->getHeight(); j++) {
-    r.y = j*_tileH;
-    SDL_RenderFillRect(_renderer, &r);
-  }
+  for(unsigned int i = 0; i < map->getWidth(); i++)
+    SDL_RenderDrawLine(_renderer, i*_tileW, 0, i*_tileW, _height);
+  for(unsigned int j = 0; j < map->getHeight(); j++)
+    SDL_RenderDrawLine(_renderer, 0, j*_tileH, _width, j*_tileH);
 
   // TODO display camera
+
+  SDL_RenderPresent(_renderer);
 
 }
 

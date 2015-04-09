@@ -12,6 +12,7 @@ public:
   virtual ~Entity();
 
   Position getPosition() const { return _position; }
+  void setPosition(const Position &position) { _position = position; }
   Position getClosestEnemyPosition() const { return _closestEnemyPosition; }
   void setClosestEnemyPosition(const Position &position) { _closestEnemyPosition = position; }
   int getId() const { return _id; }

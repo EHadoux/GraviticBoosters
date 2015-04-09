@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
       for(auto entity : entities) {
         u = BWAPI::Broodwar->getUnit(entity.second->getId());
         pos = u->getPosition();
-        entity.second->getPosition().update(pos.x, pos.y);
+        entity.second->setPosition(Position(pos.x, pos.y));
         enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
         if(enemy) {
           pos = enemy->getPosition();

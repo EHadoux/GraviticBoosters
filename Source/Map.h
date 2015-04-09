@@ -6,7 +6,7 @@
 
 class Map {
 public:
-  Map(const unsigned int width, const unsigned int height, const unsigned int tilew, const unsigned int tileh);
+  Map(unsigned int width, unsigned int height, unsigned int tilew, unsigned int tileh);
   ~Map();
 
   unsigned int getWidth() const { return _width; }

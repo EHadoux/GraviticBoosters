@@ -12,7 +12,10 @@ _tiles(width * height) {
     _tiles[i] = new Tile((_width % i)*tilew, (_width / i)*tileh);
 }
 
-Map::~Map() {}
+Map::~Map() {
+  for(auto t : _tiles)
+    delete t;
+}
 
 Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
   return _tiles[y * _width + x];

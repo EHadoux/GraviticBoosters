@@ -86,6 +86,7 @@ int main(int argc, char *argv[]) {
       }
       }
       }*/
+    std::cout << "Starting main loop" << std::endl;
     while(BWAPI::Broodwar->isInGame()) {
       for(auto e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;
@@ -111,11 +112,11 @@ int main(int argc, char *argv[]) {
           p = u->getPosition();
           w = ut.groundWeapon();
           if(ut.isBuilding())
-            GraviticBooster::getEntities()[u->getID()] = new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-            w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID());
+            GraviticBooster::addEntity(u->getID(), new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+            w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID()));
           else
-            GraviticBooster::getEntities()[u->getID()] = new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-            w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID());
+            GraviticBooster::addEntity(u->getID(), new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+            w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID()));
           break;
         case BWAPI::EventType::UnitDestroy:
           u = e.getUnit();
@@ -138,6 +139,7 @@ int main(int argc, char *argv[]) {
         pos = u->getPosition();
         entity.second->setPosition(Position(pos.x, pos.y));
         enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
+        std::cout << enemy << std::endl;
         if(enemy) {
           pos = enemy->getPosition();
           entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante

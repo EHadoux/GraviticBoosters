@@ -13,7 +13,7 @@ _tiles(numOfTilesH * numOfTilesV) {
   unsigned int tileH = _height / numOfTilesV, tileW = width / numOfTilesV;
   for(unsigned int x = 0; x < numOfTilesH; x++)
     for(unsigned int y = 0; y < numOfTilesV; y++)
-      _tiles[y * numOfTilesV + x] = new Tile((tileW / 2) + x * tileW, (tileH / 2) + y * tileH, tileW, tileH);
+      _tiles[y * numOfTilesH + x] = new Tile((tileW / 2) + x * tileW, (tileH / 2) + y * tileH, tileW, tileH);
 }
 
 Map::~Map() {
@@ -22,11 +22,11 @@ Map::~Map() {
 }
 
 Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
-  return _tiles[y * _numOfTilesV + x];
+  return _tiles[y * _numOfTilesH + x];
 }
 
 Position Map::getPosition(const unsigned int id) const {
-  return Position(id % _numOfTilesV, id / _numOfTilesV);
+  return Position(id % _numOfTilesH, id / _numOfTilesH);
 }
 
 
@@ -48,10 +48,10 @@ void Map::propagatePotential() {
   for(unsigned int i = 0; i < old.size(); ++i)
     for(unsigned int x = 0; x < _numOfTilesH; ++x)
       for(unsigned int y = 0; y < _numOfTilesV; ++y) {
-        if(i == (y * _numOfTilesV + x))
+        if(i == (y * _numOfTilesH + x))
           continue;
         neighbor = getTileAt(x, y);
-        dist = getPosition(i).euclidian(getPosition(y * _numOfTilesV + x));
+        dist = getPosition(i).euclidian(getPosition(y * _numOfTilesH + x));
         if(dist < RADIUS)
           neighbor->setPotential((neighbor->getPotential() + old[i] * (1 + cos((dist / RADIUS)*PI) / 2)) / 2);
       }

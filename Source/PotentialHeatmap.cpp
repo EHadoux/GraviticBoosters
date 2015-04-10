@@ -18,7 +18,7 @@ PotentialHeatmap::PotentialHeatmap(unsigned int width, unsigned int height) {
 
   std::cout << "Create renderer..." << std::endl;;
   _renderer = SDL_CreateRenderer(_window, 0, SDL_RENDERER_ACCELERATED);
-
+  std::cout << "Renderer created" << std::endl;
 }
 
 PotentialHeatmap::~PotentialHeatmap() {
@@ -29,8 +29,8 @@ PotentialHeatmap::~PotentialHeatmap() {
 
 void PotentialHeatmap::update(Map * map, Camera * camera) {
 
-  _tileW = _width / map->getNumOfTilesV();
-  _tileH = _height / map->getNumOfTilesH();
+  _tileW = _width / map->getNumOfTilesH();
+  _tileH = _height / map->getNumOfTilesV();
 
   SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
   SDL_RenderClear(_renderer);

@@ -12,5 +12,6 @@ private:
 public:
   static double getMaxDistance() { return GraviticBooster::_maxDistance; }
   static void setMaxDistance(double maxDistance) { GraviticBooster::_maxDistance = maxDistance; }
+  static void addEntity(int id, Entity *entity) { GraviticBooster::_entities[id] = entity; }
   static std::unordered_map<int, Entity*> getEntities() { return GraviticBooster::_entities; }
 };

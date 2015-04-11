@@ -22,7 +22,8 @@ double Unit::aggressionPotential() const {
   }*/
 
   // TODO Normaliser entre 0 et 1
-  return 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance();
+  //return 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance();
+  return 0.5;
 }
 
 double Unit::timeToPosition(Position to) const {

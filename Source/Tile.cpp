@@ -18,6 +18,7 @@ std::vector<Entity*> Tile::getEntities() const {
   std::vector<Entity*> entities;
   for(auto entity : GraviticBooster::getEntities()) {
     Position p = entity.second->getPosition();
+    //std::cout << "Compare (" << p.getX() << "," << p.getY() << ") (" << _centerPos.getX() << "," << _centerPos.getY() << ")" << std::endl;
     if(p.getX() <= _centerPos.getX() + _width / 2 && p.getX() > _centerPos.getX() - _width / 2 && p.getY() <= _centerPos.getY() + _height / 2 && p.getY() > _centerPos.getY() - _height / 2)
       entities.push_back(entity.second);
   }

@@ -86,14 +86,8 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
 
 SDL_Color PotentialHeatmap::potentialToColor(double potential) {
   SDL_Color color;
-  if(potential < .5) {
-    color.r = 0;
-    color.g = 0;
-    color.b = (int)(potential * 510);
-  } else {
-    color.r = (int)(potential * 510 - 255);
-    color.g = (int)(potential * 510 - 255);
-    color.b = 255;
-  }
+  color.r = 0;
+  color.g = 0;
+  color.b = (int)(potential * 255);
   return color;
 }

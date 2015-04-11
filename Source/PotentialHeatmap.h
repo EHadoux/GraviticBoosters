@@ -10,6 +10,7 @@ public:
   PotentialHeatmap(unsigned int width, unsigned int height);
   virtual ~PotentialHeatmap();
   void update(Map * map, Camera * camera);
+  enum mode { MIXED, AGGRESSION, ECONOMIC, STRATEGIC };
 
 private:
   SDL_Color potentialToColor(double potential);
@@ -19,4 +20,5 @@ private:
   SDL_Event _event;
 
   int _width, _height, _tileW, _tileH;
+  mode _mode;
 };

@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
     initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
-    map = new Map(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight(), 50, 50);
+    map = new Map(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight(), 40, 40);
     phm = new PotentialHeatmap(800, 600);
     camera = new Camera(*initPosCam);
     if(BWAPI::Broodwar->isReplay()) {
@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
         pos = u->getPosition();
         entity.second->setPosition(Position(pos.x, pos.y));
         enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
-        std::cout << enemy << std::endl;
+        //std::cout << enemy << std::endl;
         if(enemy) {
           pos = enemy->getPosition();
           entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante

@@ -34,20 +34,29 @@ void waitForAMatch() {
   std::cout << "starting match!" << std::endl;
 }
 
-void theadGB() {
+void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
   Map * map = new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 40, 40);
   PotentialHeatmap * phm = new PotentialHeatmap(800, 600);
   Camera * camera = new Camera(*initPosCam);
   BWAPI::Position pos;
-  BWAPI::Unit u, enemy;
+  BWAPI::Unit u, enemy = NULL;
   while(true) {
     for(auto entity : GraviticBooster::getEntities()) {
       u = BWAPI::Broodwar->getUnit(entity.second->getId());
       pos = u->getPosition();
       entity.second->setPosition(Position(pos.x, pos.y));
-      enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
+      //enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
       //std::cout << enemy << std::endl;
+      double dist = 9999999999;
+      double curDist;
+      for(auto e : enemies[u->getPlayer()->getID()]->getUnits()) {
+        curDist = u->getDistance(e);
+        if(curDist < dist) {
+          dist = curDist;
+          enemy = e;
+        }
+      }
       if(enemy) {
         pos = enemy->getPosition();
         entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
@@ -70,8 +79,21 @@ int main(int argc, char *argv[]) {
     waitForAMatch();
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
-    std::cout << "Starting main loop" << std::endl;
-    std::thread runGB(theadGB);
+    std::cout << "Starting main loop" << std::endl;    
+    for(auto p : BWAPI::Broodwar->getPlayers()) {
+      units = p->getUnits();
+      if(!p->getUnits().empty() && !p->isNeutral())
+        for(auto u : units)
+          if(u->getType().isResourceDepot()) {
+            players.push_back(p);
+            bases.push_back(u);
+          }
+    }
+    enemies[players[0]->getID()] = players[1];
+    enemies[players[1]->getID()] = players[0];
+    //std::cout << bases[0]->getDistance(bases[1]) << std::endl;
+    GraviticBooster::setMaxDistance(bases[0]->getDistance(bases[1]));
+    std::thread runGB(theadGB, enemies);
     while(BWAPI::Broodwar->isInGame()) {
       for(auto e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;

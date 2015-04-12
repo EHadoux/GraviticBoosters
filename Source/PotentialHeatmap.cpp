@@ -64,7 +64,7 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
       //default: potential = tile->getPotential();
       //}
       potential = tile->getPotential();
-      std::cout << potential << std::endl;
+      //std::cout << potential << std::endl;
       color = potentialToColor(potential);
       r.x = _tileW * w;
       r.y = _tileH * h;

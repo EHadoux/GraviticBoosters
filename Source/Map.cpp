@@ -64,7 +64,7 @@ void Map::propagatePotential() {
           continue;
         dist = getPosition(i).euclidian(getPosition(y));
         if(dist < RADIUS)
-          _tiles[y]->setPotential(_tiles[y]->getPotential() + old[i] * (1 + cos((dist / RADIUS)*PI) / 2));
+          _tiles[y]->setPotential((_tiles[y]->getPotential() + old[i] * (1 + cos((dist / RADIUS)*PI) / 2))/2);
         //_tiles[y]->setPotential(fmax(old[y], old[i] * 1 - (dist / RADIUS)));
         //_tiles[y]->setPotential(old[y] + old[i] * 1 - (dist / RADIUS));
       }

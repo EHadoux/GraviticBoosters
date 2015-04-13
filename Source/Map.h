@@ -15,6 +15,7 @@ public:
   unsigned int getNumOfTilesV() const { return _numOfTilesV; }
 
   Tile* getTileAt(unsigned int x, unsigned int y) const;
+  Tile* getMaxTile() const;
   Position getPosition(unsigned int id) const;
   void update();
 

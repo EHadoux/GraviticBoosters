@@ -65,7 +65,7 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
       //}
       potential = tile->getPotential();
       //std::cout << potential << std::endl;
-      color = potentialToColor(potential);
+      color = potentialToColor(potential,map->getMaxTile());
       r.x = _tileW * w;
       r.y = _tileH * h;
       SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, 255);
@@ -85,10 +85,10 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
 
 }
 
-SDL_Color PotentialHeatmap::potentialToColor(double potential) {
+SDL_Color PotentialHeatmap::potentialToColor(double potential, Tile * maxTile) {
   SDL_Color color;
   color.r = 0;
   color.g = 0;
-  color.b = (int)(potential * 255);
+  color.b = (int)((potential * 255)/maxTile->getPotential());
   return color;
 }

@@ -68,6 +68,11 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
   }
 }
 
+void changeCameraPosition(const Camera &camera) {
+  auto pos = camera.getPosition();
+  BWAPI::Broodwar->setScreenPosition(pos.getX(), pos.getY());
+}
+
 int main(int argc, char *argv[]) {
   BWAPI::Unitset units;
   std::vector<BWAPI::Unit> bases;

@@ -35,15 +35,15 @@ void waitForAMatch() {
 }
 
 void initGraviticBooster() {
-  Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
-  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 40, 40));
+  Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth()*TILE_SIZE / 2, BWAPI::Broodwar->mapHeight()*TILE_SIZE / 2);
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 60, 60));
   GraviticBooster::setHeatmap(new PotentialHeatmap(800, 600));
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
 
 void changeCameraPosition() {
   auto pos = GraviticBooster::getCamera()->getPosition();
-  BWAPI::Broodwar->setScreenPosition(pos.getX(), pos.getY());
+  BWAPI::Broodwar->setScreenPosition(BWAPI::Position(pos.getX(), pos.getY()) - BWAPI::Position(320, 240));
 }
 
 void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
@@ -73,7 +73,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     }
     GraviticBooster::update();
     changeCameraPosition();
-    Sleep(500);
+    //Sleep(100);
   }
 }
 

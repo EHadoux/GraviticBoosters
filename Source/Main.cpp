@@ -41,6 +41,11 @@ void initGraviticBooster() {
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
 
+void changeCameraPosition() {
+  auto pos = GraviticBooster::getCamera()->getPosition();
+  BWAPI::Broodwar->setScreenPosition(pos.getX(), pos.getY());
+}
+
 void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
   initGraviticBooster();
   BWAPI::Position pos;
@@ -67,13 +72,9 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
       }
     }
     GraviticBooster::update();
+    changeCameraPosition();
     Sleep(500);
   }
-}
-
-void changeCameraPosition(const Camera &camera) {
-  auto pos = camera.getPosition();
-  BWAPI::Broodwar->setScreenPosition(pos.getX(), pos.getY());
 }
 
 int main(int argc, char *argv[]) {

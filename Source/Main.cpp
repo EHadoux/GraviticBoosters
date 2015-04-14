@@ -34,11 +34,15 @@ void waitForAMatch() {
   std::cout << "starting match!" << std::endl;
 }
 
-void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
+void initGraviticBooster() {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth() / 2, BWAPI::Broodwar->mapHeight() / 2);
-  Map * map = new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 40, 40);
-  PotentialHeatmap * phm = new PotentialHeatmap(800, 600);
-  Camera * camera = new Camera(*initPosCam);
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 40, 40));
+  GraviticBooster::setHeatmap(new PotentialHeatmap(800, 600));
+  GraviticBooster::setCamera(new Camera(*initPosCam));
+}
+
+void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
+  initGraviticBooster();
   BWAPI::Position pos;
   BWAPI::Unit u, enemy = NULL;
   while(true) {
@@ -62,8 +66,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
         entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
       }
     }
-    map->update();
-    phm->update(map, camera);
+    GraviticBooster::update();
     Sleep(500);
   }
 }
@@ -84,7 +87,7 @@ int main(int argc, char *argv[]) {
     waitForAMatch();
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
     BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
-    std::cout << "Starting main loop" << std::endl;    
+    std::cout << "Starting main loop" << std::endl;
     for(auto p : BWAPI::Broodwar->getPlayers()) {
       units = p->getUnits();
       if(!p->getUnits().empty() && !p->isNeutral())

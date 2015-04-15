@@ -13,7 +13,7 @@ public:
   enum mode { MIXED, AGGRESSION, ECONOMIC, STRATEGIC };
 
 private:
-  SDL_Color potentialToColor(double potential, Tile * maxTile);
+  SDL_Color potentialToColor(Tile * tile, Tile * maxTile);
 
   SDL_Window * _window;
   SDL_Renderer * _renderer;

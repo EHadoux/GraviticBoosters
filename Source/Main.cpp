@@ -39,7 +39,7 @@ void waitForAMatch() {
 
 void initGraviticBooster() {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth()*TILE_SIZE / 2, BWAPI::Broodwar->mapHeight()*TILE_SIZE / 2);
-  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 60, 60));
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 50, 50));
   GraviticBooster::setHeatmap(new PotentialHeatmap(800, 600));
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
@@ -81,6 +81,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     changeCameraPosition();
     //Sleep(100);
     mutex.unlock();
+    Sleep(500);
   }
 }
 

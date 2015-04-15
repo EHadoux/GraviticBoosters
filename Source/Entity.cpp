@@ -1,9 +1,9 @@
 #include "Entity.h"
 #include <sstream>
 
-Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas, 
+Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas,
                const double dpf, const unsigned int owner) :
-_position(position), _closestEnemyPosition(0,0) {
+               _position(position), _closestEnemyPosition(0, 0) {
   _id = id;
   _minerals = minerals;
   _gas = gas;
@@ -31,14 +31,14 @@ double Entity::aggressionPotential() const {
 }
 
 double Entity::economicPotential() const {
-  return 0.0;
+  return (_minerals + (_gas*2.))/100.;
 }
 
 double Entity::strategicPotential() const {
   return 0.0;
 }
 
-bool Entity::isEnnemy(const Entity &other) const { 
+bool Entity::isEnnemy(const Entity &other) const {
   return _owner != other._owner;
 }
 

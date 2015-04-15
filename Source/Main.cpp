@@ -12,6 +12,9 @@
 #include <chrono>
 #include <string>
 #include <windows.h>
+#include <mutex>
+
+std::mutex mutex;
 
 void reconnect() {
   while(!BWAPI::BWAPIClient.connect()) {
@@ -51,6 +54,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
   BWAPI::Position pos;
   BWAPI::Unit u, enemy = NULL;
   while(true) {
+    mutex.lock();
     for(auto entity : GraviticBooster::getEntities()) {
       u = BWAPI::Broodwar->getUnit(entity.second->getId());
       pos = u->getPosition();
@@ -59,6 +63,8 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
       //std::cout << enemy << std::endl;
       double dist = 9999999999;
       double curDist;
+      if(u->getPlayer()->getName() == "Neutral")
+        continue;
       for(auto e : enemies[u->getPlayer()->getID()]->getUnits()) {
         curDist = u->getDistance(e);
         if(curDist < dist) {
@@ -74,6 +80,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     GraviticBooster::update();
     changeCameraPosition();
     //Sleep(100);
+    mutex.unlock();
   }
 }
 
@@ -81,8 +88,8 @@ int main(int argc, char *argv[]) {
   BWAPI::Unitset units;
   std::vector<BWAPI::Unit> bases;
   std::vector<BWAPI::Player> players;
-  std::unordered_map<int, BWAPI::Player> enemies;
-  std::cout << "Connecting..." << std::endl;;
+  std::unordered_map<int, BWAPI::Player> enemies;  
+  std::cout << "Connecting..." << std::endl;
   reconnect();
   while(true) {
     waitForAMatch();
@@ -101,9 +108,10 @@ int main(int argc, char *argv[]) {
     enemies[players[0]->getID()] = players[1];
     enemies[players[1]->getID()] = players[0];
     //std::cout << bases[0]->getDistance(bases[1]) << std::endl;
-    GraviticBooster::setMaxDistance(bases[0]->getDistance(bases[1]));
+    GraviticBooster::setMaxDistance(bases[0]->getDistance(bases[1]) + 400);
     std::thread runGB(theadGB, enemies);
     while(BWAPI::Broodwar->isInGame()) {
+      mutex.lock();
       for(auto e : BWAPI::Broodwar->getEvents()) {
         BWAPI::Unit u;
         BWAPI::Position p;
@@ -122,9 +130,9 @@ int main(int argc, char *argv[]) {
           break;
         case BWAPI::EventType::UnitCreate:
           u = e.getUnit();
-          ut = u->getType();
-          if(ut.isNeutral() || ut == BWAPI::UnitTypes::Zerg_Larva)
+          if(u->getPlayer()->isNeutral())
             break;
+          ut = u->getType();
           p = u->getPosition();
           w = ut.groundWeapon();
           if(ut.isBuilding())
@@ -136,10 +144,23 @@ int main(int argc, char *argv[]) {
           break;
         case BWAPI::EventType::UnitDestroy:
           u = e.getUnit();
-          delete  GraviticBooster::getEntities()[u->getID()];
+          delete GraviticBooster::getEntities()[u->getID()];
           break;
-        case BWAPI::EventType::UnitMorph:
-          break;
+        /*case BWAPI::EventType::UnitMorph:
+          u = e.getUnit();
+          ut = u->getType();          
+          if(ut == BWAPI::UnitTypes::Zerg_Egg)
+            break;
+          std::cout << ut << std::endl;
+          p = u->getPosition();
+          w = ut.groundWeapon();
+          if(ut.isBuilding())
+            GraviticBooster::addEntity(u->getID(), new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+            w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID()));
+          else
+            GraviticBooster::addEntity(u->getID(), new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
+            w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID()));
+          break;*/
         case BWAPI::EventType::UnitShow:
           break;
         case BWAPI::EventType::UnitHide:
@@ -148,6 +169,7 @@ int main(int argc, char *argv[]) {
           break;
         }
       }
+      mutex.unlock();
       reconnecting();
     }
     std::cout << "Game ended" << std::endl;

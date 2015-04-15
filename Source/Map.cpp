@@ -39,33 +39,45 @@ Position Map::getPosition(const unsigned int id) const {
 }
 
 void Map::update() {
-  double potential = .0;
+  double ap = .0, ep = .0, sp = .0;
   for(auto tile : _tiles) {
     auto entities = tile->getEntities();
     if(entities.empty()) {
-      tile->setPotential(0.);
+      tile->setAllPotentials(0.);
       continue;
     }
-    for(auto e : entities)
-      potential += e->getPotential();
-    tile->setPotential(potential);
+    for(auto e : entities) {
+      ap += e->aggressionPotential();
+      ep += e->economicPotential();
+      sp += e->strategicPotential();
+    }
+    tile->setAggressionPotential(ap);
+    tile->setEconomicPotential(ep);
+    tile->setStrategicPotential(sp);
   }
   propagatePotential();
 }
 
 void Map::propagatePotential() {
-  std::vector<double> old(_tiles.size());
-  std::transform(_tiles.begin(), _tiles.end(), old.begin(), [](Tile *t) {return t->getPotential(); });
-  double dist;
-  for(unsigned int i = 0; i < old.size(); ++i)
-    if(old[i] > .0)
-      for(unsigned int y = 0; y < old.size(); ++y) {
+  // TODO opti
+  std::vector<double> oldA(_tiles.size());
+  std::transform(_tiles.begin(), _tiles.end(), oldA.begin(), [](Tile *t) {return t->getAggressionPotential(); });
+  std::vector<double> oldE(_tiles.size());
+  std::transform(_tiles.begin(), _tiles.end(), oldE.begin(), [](Tile *t) {return t->getEconomicPotential(); });
+  std::vector<double> oldS(_tiles.size());
+  std::transform(_tiles.begin(), _tiles.end(), oldS.begin(), [](Tile *t) {return t->getStrategicPotential(); });
+  double dist, delta;
+  for(unsigned int i = 0; i < _tiles.size(); ++i)
+    if(oldA[i] > .0 || oldE[i] > .0 || oldS[i] > .0)
+      for(unsigned int y = 0; y < _tiles.size(); ++y) {
         if(i == y)
           continue;
         dist = getPosition(i).euclidian(getPosition(y));
-        if(dist < RADIUS)
-          _tiles[y]->setPotential((_tiles[y]->getPotential() + old[i] * (1 + cos((dist / RADIUS)*PI) / 2))/2);
-        //_tiles[y]->setPotential(fmax(old[y], old[i] * 1 - (dist / RADIUS)));
-        //_tiles[y]->setPotential(old[y] + old[i] * 1 - (dist / RADIUS));
+        if(dist < RADIUS) {
+          delta = 1 + cos((dist / RADIUS)*PI) / 2;
+          if(oldA[i] > .0) _tiles[y]->setAggressionPotential((_tiles[y]->getAggressionPotential() + oldA[i] * delta) / 2);
+          if(oldE[i] > .0) _tiles[y]->setEconomicPotential((_tiles[y]->getEconomicPotential() + oldE[i] * delta) / 2);
+          if(oldS[i] > .0) _tiles[y]->setStrategicPotential((_tiles[y]->getStrategicPotential() + oldS[i] * delta) / 2);
+        }
       }
 }

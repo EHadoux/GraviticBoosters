@@ -3,15 +3,31 @@
 
 Tile::Tile(const unsigned int x, const unsigned int y, const unsigned int width, const unsigned int height) :
 _centerPos(x, y) {
-  _potential = 0.0;
+  _aggressionPotential = 0.0;
+  _strategicPotential = 0.0;
+  _economicPotential = 0.0;
   _width = width;
   _height = height;
 }
 
 Tile::~Tile() {}
 
-void Tile::setPotential(const double potential) {
-  _potential = potential;
+void Tile::setAllPotentials(const double potential) {
+  _aggressionPotential = potential;
+  _strategicPotential = potential;
+  _economicPotential = potential;
+}
+
+void Tile::setAggressionPotential(const double aggressionPotential) {
+  _aggressionPotential = aggressionPotential;
+}
+
+void Tile::setStrategicPotential(const double strategicPotential) {
+  _strategicPotential = strategicPotential;
+}
+
+void Tile::setEconomicPotential(const double economicPotential) {
+  _economicPotential = economicPotential;
 }
 
 std::vector<Entity*> Tile::getEntities() const {

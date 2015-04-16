@@ -27,15 +27,15 @@ double Entity::getPotential() const {
 }
 
 double Entity::aggressionPotential() const {
-  return 0.0;
+  return .0;
 }
 
 double Entity::economicPotential() const {
-  return (_minerals + (_gas*2.))/100.;
+  return .0;
 }
 
 double Entity::strategicPotential() const {
-  return 0.0;
+  return .0;
 }
 
 bool Entity::isEnnemy(const Entity &other) const {

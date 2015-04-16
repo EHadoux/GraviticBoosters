@@ -3,31 +3,31 @@
 
 Tile::Tile(const unsigned int x, const unsigned int y, const unsigned int width, const unsigned int height) :
 _centerPos(x, y) {
-  _aggressionPotential = 0.0;
-  _strategicPotential = 0.0;
-  _economicPotential = 0.0;
+  _potential = std::make_tuple(.0, .0, .0);
   _width = width;
   _height = height;
 }
 
 Tile::~Tile() {}
 
+void Tile::setPotentials(const double ap, const double ep, const double sp) {
+  _potential = std::make_tuple(ap, ep, sp);
+}
+
 void Tile::setAllPotentials(const double potential) {
-  _aggressionPotential = potential;
-  _strategicPotential = potential;
-  _economicPotential = potential;
+  _potential = std::make_tuple(potential, potential, potential);
 }
 
 void Tile::setAggressionPotential(const double aggressionPotential) {
-  _aggressionPotential = aggressionPotential;
-}
-
-void Tile::setStrategicPotential(const double strategicPotential) {
-  _strategicPotential = strategicPotential;
+  std::get<0>(_potential) = aggressionPotential;
 }
 
 void Tile::setEconomicPotential(const double economicPotential) {
-  _economicPotential = economicPotential;
+  std::get<1>(_potential) = economicPotential;
+}
+
+void Tile::setStrategicPotential(const double strategicPotential) {
+  std::get<2>(_potential) = strategicPotential;
 }
 
 std::vector<Entity*> Tile::getEntities() const {

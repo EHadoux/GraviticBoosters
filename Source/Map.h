@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include "Entity.h"
 #include <vector>
+#include <tuple>
 
 class Map {
 public:

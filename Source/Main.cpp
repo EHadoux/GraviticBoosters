@@ -71,11 +71,15 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
           dist = curDist;
           enemy = e;
         }
+        if(e->getType().isBuilding() && e->isVisible(u->getPlayer())) {
+          Entity *notseen = GraviticBooster::getEntities()[e->getID()];
+          Building *b = dynamic_cast<Building*>(notseen);
+          if(b != NULL) //Corrige les symptomes mais pas la maladie
+            b->setVisibility(true);
+        }
       }
-      if(enemy) {
-        pos = enemy->getPosition();
-        entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
-      }
+      pos = enemy->getPosition();
+      entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
     }
     GraviticBooster::update();
     changeCameraPosition();
@@ -89,7 +93,7 @@ int main(int argc, char *argv[]) {
   BWAPI::Unitset units;
   std::vector<BWAPI::Unit> bases;
   std::vector<BWAPI::Player> players;
-  std::unordered_map<int, BWAPI::Player> enemies;  
+  std::unordered_map<int, BWAPI::Player> enemies;
   std::cout << "Connecting..." << std::endl;
   reconnect();
   while(true) {
@@ -118,6 +122,9 @@ int main(int argc, char *argv[]) {
         BWAPI::Position p;
         BWAPI::UnitType ut;
         BWAPI::WeaponType w;
+        u = e.getUnit();
+        if(u != NULL && u->getPlayer()->isNeutral())
+          break;
         //Unit *unit;
         //Building *building;
         switch(e.getType()) {
@@ -130,9 +137,6 @@ int main(int argc, char *argv[]) {
         case BWAPI::EventType::NukeDetect:
           break;
         case BWAPI::EventType::UnitCreate:
-          u = e.getUnit();
-          if(u->getPlayer()->isNeutral())
-            break;
           ut = u->getType();
           p = u->getPosition();
           w = ut.groundWeapon();
@@ -144,30 +148,31 @@ int main(int argc, char *argv[]) {
             w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID()));
           break;
         case BWAPI::EventType::UnitDestroy:
-          u = e.getUnit();
           delete GraviticBooster::getEntities()[u->getID()];
           break;
-        /*case BWAPI::EventType::UnitMorph:
-          u = e.getUnit();
-          ut = u->getType();          
-          if(ut == BWAPI::UnitTypes::Zerg_Egg)
+          /*case BWAPI::EventType::UnitMorph:
+            u = e.getUnit();
+            ut = u->getType();
+            if(ut == BWAPI::UnitTypes::Zerg_Egg)
             break;
-          std::cout << ut << std::endl;
-          p = u->getPosition();
-          w = ut.groundWeapon();
-          if(ut.isBuilding())
+            std::cout << ut << std::endl;
+            p = u->getPosition();
+            w = ut.groundWeapon();
+            if(ut.isBuilding())
             GraviticBooster::addEntity(u->getID(), new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
             w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID()));
-          else
+            else
             GraviticBooster::addEntity(u->getID(), new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
             w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID()));
-          break;*/
+            break;*/
         case BWAPI::EventType::UnitShow:
+          /*if(u->getType().isBuilding())
+            dynamic_cast<Building*>(GraviticBooster::getEntities()[u->getID()])->setVisibility(true);*/
           break;
-        case BWAPI::EventType::UnitHide:
-          break;
-        case BWAPI::EventType::UnitRenegade:
-          break;
+          /*case BWAPI::EventType::UnitHide:
+            break;
+            case BWAPI::EventType::UnitRenegade:
+            break;*/
         }
       }
       mutex.unlock();

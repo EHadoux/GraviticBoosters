@@ -26,6 +26,12 @@ double Unit::aggressionPotential() const {
   //return 0.5;
 }
 
+double Unit::strategicPotential() const {
+  Entity *b = GraviticBooster::closestUnseenBuilding(_position);
+  if(b == NULL) return 0;
+  return 1 - _position.euclidian(b->getPosition()) / GraviticBooster::getMaxDistance();
+}
+
 double Unit::timeToPosition(Position to) const {
   int deltax = abs((int)to.getX() - (int)getPosition().getX()), deltay = abs((int)to.getY() - (int)getPosition().getY());
   return sqrt(pow(deltax / _velocity, 2) + pow(deltay / _velocity, 2));

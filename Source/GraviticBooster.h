@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Unit.h"
 #include "PotentialHeatmap.h"
-#include <set>
+#include "Building.h"
+#include "Unit.h"
 #include <unordered_map>
 
 class GraviticBooster {
@@ -24,5 +24,6 @@ public:
   static void setMaxDistance(double maxDistance) { GraviticBooster::_maxDistance = maxDistance; }
   static void addEntity(int id, Entity *entity) { GraviticBooster::_entities[id] = entity; }
   static std::unordered_map<int, Entity*> getEntities() { return GraviticBooster::_entities; }
-  static void update() { GraviticBooster::_map->update(); GraviticBooster::_phm->update(GraviticBooster::_map, GraviticBooster::_camera); GraviticBooster::_camera->update(GraviticBooster::_map); }
+  static void update();
+  static Building* closestUnseenBuilding(Position pos);
 };

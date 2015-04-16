@@ -15,6 +15,7 @@ public:
   double timeToPosition(Position to) const;
   std::vector<Unit*> unitNeighborhood() const;
   double aggressionPotential() const;
+  double strategicPotential() const;
 
   std::string toString() const;
 

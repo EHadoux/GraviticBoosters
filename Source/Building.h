@@ -8,7 +8,7 @@ public:
   Building(unsigned int id, Position position, unsigned int minerals, unsigned int gas, double dpf, unsigned int owner);
   ~Building();
 
-  bool getVisibility() const { return _seen; }
+  bool seen() const { return _seen; }
   void setVisibility(bool seen) { _seen = seen; }
   std::vector<Building*> buildingNeighborhood() const;
 

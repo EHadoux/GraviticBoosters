@@ -28,7 +28,7 @@ Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
 Tile* Map::getMaxTile() const {
   Tile * max = _tiles.front();
   for(auto tile : _tiles) {
-    if(max->getPotential() < tile->getPotential())
+    if(max->sumPotential() < tile->sumPotential())
       max = tile;
   }
   return max;

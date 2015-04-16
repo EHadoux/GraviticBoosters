@@ -27,7 +27,7 @@ double Unit::aggressionPotential() const {
 }
 
 double Unit::strategicPotential() const {
-  Entity *b = GraviticBooster::closestUnseenBuilding(_position);
+  Entity *b = GraviticBooster::closestUnseenBuilding(_position,_owner);
   if(b == NULL) return 0;
   return 1 - _position.euclidian(b->getPosition()) / GraviticBooster::getMaxDistance();
 }

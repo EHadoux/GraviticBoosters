@@ -16,6 +16,7 @@ public:
   Position getClosestEnemyPosition() const { return _closestEnemyPosition; }
   void setClosestEnemyPosition(const Position &position) { _closestEnemyPosition = position; }
   int getId() const { return _id; }
+  int getOwner() const { return _owner; }
 
   virtual double aggressionPotential() const;
   virtual double economicPotential() const;

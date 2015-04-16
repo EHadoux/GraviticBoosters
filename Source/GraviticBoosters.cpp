@@ -1,19 +1,19 @@
 #include "GraviticBooster.h"
 
-void GraviticBooster::update() { 
-  GraviticBooster::_map->update(); 
-  GraviticBooster::_phm->update(GraviticBooster::_map, GraviticBooster::_camera); 
-  GraviticBooster::_camera->update(GraviticBooster::_map); 
+void GraviticBooster::update() {
+  GraviticBooster::_map->update();
+  GraviticBooster::_phm->update(GraviticBooster::_map, GraviticBooster::_camera);
+  GraviticBooster::_camera->update(GraviticBooster::_map);
 }
 
-Building* GraviticBooster::closestUnseenBuilding(Position pos) {
+Building* GraviticBooster::closestUnseenBuilding(Position pos, int owner) {
   double distance = 999999999999;
   Building *e = NULL, *ret = NULL;
   for(auto p : GraviticBooster::_entities) {
     e = dynamic_cast<Building*>(p.second);
     if(e == NULL) continue;
-    double curDist = pos.euclidian(p.second->getPosition());    
-    if(curDist < distance && !e->seen()) {
+    double curDist = pos.euclidian(p.second->getPosition());
+    if(owner != e->getOwner() && curDist < distance && !e->seen()) {
       distance = curDist;
       ret = e;
     }

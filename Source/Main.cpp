@@ -73,6 +73,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
       }
       pos = enemy->getPosition();
       entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
+      entity.second->isAttacking(u->isAttacking());
       //std::cout << u->getType() << std::endl;
     }
     GraviticBooster::update();

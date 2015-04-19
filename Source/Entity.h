@@ -17,6 +17,8 @@ public:
   void setClosestEnemyPosition(const Position &position) { _closestEnemyPosition = position; }
   int getId() const { return _id; }
   int getOwner() const { return _owner; }
+  bool isAttacking() const { return _isAttacking; }
+  void isAttacking(bool attacking) { _isAttacking = attacking; }
 
   virtual double aggressionPotential() const;
   virtual double economicPotential() const;
@@ -33,4 +35,5 @@ protected:
   Position _position, _closestEnemyPosition;
   unsigned int _id, _minerals, _gas, _owner;
   double _dpf;
+  bool _isAttacking;
 };

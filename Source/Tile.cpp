@@ -6,6 +6,7 @@ _centerPos(x, y) {
   _potential = std::make_tuple(.0, .0, .0);
   _width = width;
   _height = height;
+  _decayRatio = 0;
 }
 
 Tile::~Tile() {}
@@ -18,12 +19,36 @@ void Tile::setAllPotentials(const double potential) {
   _potential = std::make_tuple(potential, potential, potential);
 }
 
+double Tile::getAggressionPotential() const {
+  double pot = std::get<0>(_potential);
+  if(pot > 0)
+    return pot;
+  else
+    return 0;
+}
+
 void Tile::setAggressionPotential(const double aggressionPotential) {
   std::get<0>(_potential) = aggressionPotential;
 }
 
+double Tile::getEconomicPotential() const {
+  double pot = std::get<1>(_potential);
+  if(pot > 0)
+    return pot;
+  else
+    return 0;
+}
+
 void Tile::setEconomicPotential(const double economicPotential) {
   std::get<1>(_potential) = economicPotential;
+}
+
+double Tile::getStrategicPotential() const {
+  double pot = std::get<2>(_potential);
+  if(pot > 0)
+    return pot;
+  else
+    return 0;
 }
 
 void Tile::setStrategicPotential(const double strategicPotential) {

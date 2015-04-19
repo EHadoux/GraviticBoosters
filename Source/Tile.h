@@ -12,19 +12,22 @@ public:
 
   std::tuple<double, double, double> getPotential() const { return _potential; }
   void setPotentials(double ap, double ep, double sp);
-  double sumPotential() const { return std::get<0>(_potential) +std::get<1>(_potential) +std::get<2>(_potential); }
+  double sumPotential() const { return (std::get<0>(_potential) +std::get<1>(_potential) +std::get<2>(_potential)) / _decayRatio; }
   void setAllPotentials(double potential);
-  double getAggressionPotential() const { return std::get<0>(_potential); }
+  double getAggressionPotential() const;
   void setAggressionPotential(double aggressionPotential);
-  double getEconomicPotential() const { return std::get<1>(_potential); }
+  double getEconomicPotential() const;
   void setEconomicPotential(double economicPotential);
-  double getStrategicPotential() const { return std::get<2>(_potential); }
+  double getStrategicPotential() const;
   void setStrategicPotential(double strategicPotential);
   Position getCenterPosition() const { return _centerPos; }
   std::vector<Entity*> getEntities() const;
+  double getDecay() const { return _decayRatio; }
+  void setDecay(double decay) { _decayRatio = decay; }
 
 private:
   Position _centerPos;
   std::tuple<double, double, double> _potential;
   int _width, _height;
+  double _decayRatio;
 };

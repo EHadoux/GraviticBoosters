@@ -9,11 +9,13 @@ class GraviticBooster {
 private:
   static std::unordered_map<int, Entity*> _entities;
   static double _maxDistance;
+  static unsigned int _clock;
   static Map * _map;
   static PotentialHeatmap * _phm;
   static Camera * _camera;
 
 public:
+  static int getClock() { return GraviticBooster::_clock; }
   static Map * getMap() { return GraviticBooster::_map; }
   static void setMap(Map * map) { GraviticBooster::_map = map; }
   static PotentialHeatmap * getHeatmap() { return GraviticBooster::_phm; }

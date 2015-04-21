@@ -17,6 +17,7 @@ public:
   void setClosestEnemyPosition(const Position &position) { _closestEnemyPosition = position; }
   int getId() const { return _id; }
   int getOwner() const { return _owner; }
+  int getCreationTime() const { return _creationTime; }
   bool isAttacking() const { return _isAttacking; }
   void isAttacking(bool attacking) { _isAttacking = attacking; }
 
@@ -33,7 +34,7 @@ public:
 
 protected:
   Position _position, _closestEnemyPosition;
-  unsigned int _id, _minerals, _gas, _owner;
+  unsigned int _id, _minerals, _gas, _owner, _creationTime;
   double _dpf;
   bool _isAttacking;
 };

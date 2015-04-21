@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "GraviticBooster.h"
 #include <sstream>
 
 Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas,
@@ -9,6 +10,7 @@ Entity::Entity(const unsigned int id, Position position, const unsigned int mine
   _gas = gas;
   _owner = owner;
   _dpf = dpf;
+  _creationTime = GraviticBooster::getClock();
 }
 
 Entity::~Entity() {}

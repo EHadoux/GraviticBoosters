@@ -12,6 +12,7 @@ public:
 
   std::tuple<double, double, double> getPotential() const { return _potential; }
   void setPotentials(double ap, double ep, double sp);
+  double maxPotential() const { return fmax(std::get<0>(_potential),fmax(std::get<1>(_potential),std::get<2>(_potential))); }
   double sumPotential() const { return std::get<0>(_potential) +std::get<1>(_potential) +std::get<2>(_potential); }
   void setAllPotentials(double potential);
   double getAggressionPotential() const;

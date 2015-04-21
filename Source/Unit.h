@@ -16,6 +16,7 @@ public:
   std::vector<Unit*> unitNeighborhood() const;
   double aggressionPotential() const;
   double strategicPotential() const;
+  double economicPotential() const;
   bool isCollector() const { return _isWorker; }
 
   std::string toString() const;

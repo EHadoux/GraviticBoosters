@@ -9,6 +9,7 @@ public:
   ~Building();
 
   bool seen() const { return _seen; }
+  double economicPotential() const;
   void setVisibility(bool seen) { _seen = seen; }
   std::vector<Building*> buildingNeighborhood() const;
   bool isBase() const { return _isBase; }

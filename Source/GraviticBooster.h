@@ -5,6 +5,8 @@
 #include "Unit.h"
 #include <unordered_map>
 
+#define MININGPOTENTIAL 1.
+
 class GraviticBooster {
 private:
   static std::unordered_map<int, Entity*> _entities;

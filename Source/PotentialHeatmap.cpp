@@ -77,8 +77,8 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
 
 SDL_Color PotentialHeatmap::potentialToColor(Tile * tile, Tile * maxTile) {
   SDL_Color color;
-  color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->sumPotential());
-  color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->sumPotential());
-  color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->sumPotential());
+  color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->maxPotential());
+  color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->maxPotential());
+  color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->maxPotential());
   return color;
 }

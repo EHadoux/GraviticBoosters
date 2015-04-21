@@ -12,7 +12,7 @@ Camera::~Camera() {}
 void Camera::update(Map * map) {
   unsigned int time = GraviticBooster::getClock() - _lastUpdt;
   Position p = map->getMaxTile()->getCenterPosition();
-  if((!p.compare(_position) && time > TMIN) || time > TMAX) {
+  if((!p.compare(_position) && time > TMIN) || time > TMAX || _lastUpdt == 0) {
     _position = p;
     _lastUpdt = GraviticBooster::getClock();
   }

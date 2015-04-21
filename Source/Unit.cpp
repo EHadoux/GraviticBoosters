@@ -18,7 +18,6 @@ double Unit::economicPotential() const {
 }
 
 double Unit::aggressionPotential() const {
-  std::cout << 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance() + (isAttacking() ? 0.5 : 0) << std::endl;
   return 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance() + (isAttacking() ? 0.5 : 0);
 }
 

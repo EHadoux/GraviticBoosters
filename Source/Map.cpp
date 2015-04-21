@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 2
+#define RADIUS 6
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {

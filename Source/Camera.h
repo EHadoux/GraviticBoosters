@@ -14,4 +14,5 @@ public:
 
 private:
   Position _position;
+  unsigned int _lastUpdt;
 };

@@ -80,7 +80,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     changeCameraPosition();
     //Sleep(100);
     mutex.unlock();
-    Sleep(500);
+    Sleep(100);
   }
 }
 

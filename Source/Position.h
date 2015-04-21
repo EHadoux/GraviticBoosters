@@ -14,7 +14,7 @@ public:
   unsigned int getY() const { return _y; }
 
   double euclidian(const Position &position) const;
-
+  bool compare(const Position &pos) { return _x == pos._x && _y == pos._y; }
   Position operator=(const Position &pos) { _x = pos._x; _y = pos._y; return pos; }
 
 private:

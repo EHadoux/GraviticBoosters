@@ -28,12 +28,9 @@ Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
 Tile* Map::getMaxTile() const {
   Tile * max = _tiles.front();
   for(auto tile : _tiles) {
-    if(tile->getDecay() > 1)
-      tile->setDecay(tile->getDecay() - 0.1);
     if(max->sumPotential() < tile->sumPotential())
       max = tile;
   }
-  max->setDecay(3); 
   return max;
 }
 

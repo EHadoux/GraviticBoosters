@@ -6,7 +6,6 @@ _centerPos(x, y) {
   _potential = std::make_tuple(.0, .0, .0);
   _width = width;
   _height = height;
-  _decayRatio = 0;
 }
 
 Tile::~Tile() {}

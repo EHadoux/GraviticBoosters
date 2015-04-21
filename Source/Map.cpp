@@ -25,10 +25,19 @@ Tile* Map::getTileAt(const unsigned int x, const unsigned int y) const {
   return _tiles[y * _numOfTilesH + x];
 }
 
-Tile* Map::getMaxTile() const {
+Tile* Map::getMaxSumTile() const {
   Tile * max = _tiles.front();
   for(auto tile : _tiles) {
     if(max->sumPotential() < tile->sumPotential())
+      max = tile;
+  }
+  return max;
+}
+
+Tile* Map::getMaxTile() const {
+  Tile * max = _tiles.front();
+  for(auto tile : _tiles) {
+    if(max->maxPotential() < tile->maxPotential())
       max = tile;
   }
   return max;

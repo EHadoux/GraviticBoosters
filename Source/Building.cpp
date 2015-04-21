@@ -2,9 +2,10 @@
 #include <algorithm>
 
 Building::Building(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas, 
-                   const double dpf, const unsigned int owner) :
+                   const double dpf, const unsigned int owner, const bool isBase) :
 Entity(id, position, minerals, gas, dpf, owner) {
   _seen = false;
+  _isBase = isBase;
 }
 
 Building::~Building() {}

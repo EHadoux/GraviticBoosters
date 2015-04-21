@@ -9,13 +9,14 @@
 class Unit : public Entity {
 public:
   Unit(unsigned int id, Position position, unsigned int minerals, unsigned int gas, double dpf,
-       double velocity, unsigned int owner);
+       double velocity, unsigned int owner, bool _isWorker);
   ~Unit();
 
   double timeToPosition(Position to) const;
   std::vector<Unit*> unitNeighborhood() const;
   double aggressionPotential() const;
   double strategicPotential() const;
+  bool isCollector() const { return _isWorker; }
 
   std::string toString() const;
 
@@ -23,4 +24,5 @@ public:
 
 private:
   double _velocity;
+  bool _isWorker;
 };

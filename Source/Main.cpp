@@ -90,10 +90,10 @@ void createUnit(const BWAPI::Unit &u) {
   BWAPI::Position p = u->getPosition();
   if(ut.isBuilding())
     GraviticBooster::addEntity(u->getID(), new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-    w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID()));
+    w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID(), ut.isResourceDepot()));
   else
     GraviticBooster::addEntity(u->getID(), new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-    w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID()));
+    w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID(), ut.isWorker()));
 }
 
 std::thread waitAndInitAMatch() {

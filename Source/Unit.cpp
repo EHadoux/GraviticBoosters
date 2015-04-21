@@ -5,9 +5,10 @@
 #include <sstream>
 
 Unit::Unit(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas, const double dpf,
-           const double velocity, const unsigned int owner) :
+           const double velocity, const unsigned int owner, const bool isWorker) :
 Entity(id, position, minerals, gas, dpf, owner) {
   _velocity = velocity;
+  _isWorker = isWorker;
 }
 
 Unit::~Unit() {}

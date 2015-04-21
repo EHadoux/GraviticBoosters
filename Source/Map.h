@@ -17,7 +17,6 @@ public:
 
   Tile* getTileAt(unsigned int x, unsigned int y) const;
   Tile* getMaxTile() const;
-  Tile* getMaxSumTile() const;
   Position getPosition(unsigned int id) const;
   void update();
 

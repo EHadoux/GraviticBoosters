@@ -6,8 +6,6 @@
 #include <iostream>
 #include <string>
 
-class Building;
-
 class Entity {
 public:
   Entity(unsigned int id, Position position, unsigned int minerals, unsigned int gas, double dpf, unsigned int owner);

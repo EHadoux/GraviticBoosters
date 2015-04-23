@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 #include <sstream>
+#include <cassert>
 
 Unit::Unit(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas, const double dpf,
            const double velocity, const unsigned int owner, const bool isWorker) :
@@ -14,17 +15,24 @@ Unit::Unit(const unsigned int id, Position position, const unsigned int minerals
 Unit::~Unit() {}
 
 double Unit::economicPotential() const {
-  return _isWorker ? MININGPOTENTIAL / (GraviticBooster::getClock() - getCreationTime()) : .0;
+  double pot = (_isWorker ? MININGPOTENTIAL / (GraviticBooster::getClock() - getCreationTime()) : .0) + _minerals / 1000 + _gas / 1000;
+  assert(pot <= 1 && pot >= 0);
+  return pot;
 }
 
 double Unit::aggressionPotential() const {
-  return 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance() + (isAttacking() ? 0.5 : 0);
+  double pot = 1 - _position.euclidian(_closestEnemyPosition) / GraviticBooster::getMaxDistance() + (isAttacking() ? 0.5 : 0) + _dpf / 100;
+  assert(pot <= 1 && pot >= 0);
+  return pot;
 }
 
 double Unit::strategicPotential() const {
-  Entity *b = GraviticBooster::closestUnseenBuilding(_position, _owner);
-  if(b == NULL) return 0;
-  return 1 - _position.euclidian(b->getPosition()) / GraviticBooster::getMaxDistance();
+  if(_closestUnseenBuildingPosition.getX() != -1) {
+    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance();
+    assert(pot <= 1 && pot >= 0);
+    return pot;
+  } else
+    return 0;
 }
 
 double Unit::timeToPosition(Position to) const {

@@ -45,36 +45,42 @@ void changeCameraPosition() {
 void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
   initGraviticBooster();
   BWAPI::Position pos;
-  BWAPI::Unit u, enemy = NULL;
+  BWAPI::Unit u, enemy = NULL, building = NULL;
   while(BWAPI::Broodwar->isInGame()) {
     mutex.lock();
     for(auto entity : GraviticBooster::getEntities()) {
       u = BWAPI::Broodwar->getUnit(entity.second->getId());
       pos = u->getPosition();
       entity.second->setPosition(Position(pos.x, pos.y));
-      //enemy = u->getClosestUnit(BWAPI::Filter::IsEnemy);
-      //std::cout << enemy << std::endl;
-      double dist = 9999999999;
+      double ennemyDist = 9999999999, buildingDist = 999999999999;
       double curDist;
       if(u->getPlayer()->getName() == "Neutral")
         continue;
       for(auto e : enemies[u->getPlayer()->getID()]->getUnits()) {
         curDist = u->getDistance(e);
-        if(curDist < dist) {
-          dist = curDist;
+        if(curDist < ennemyDist) {
+          ennemyDist = curDist;
           enemy = e;
         }
-        if(e->getType().isBuilding() && e->isVisible(u->getPlayer())) {
-          Entity *notseen = GraviticBooster::getEntities()[e->getID()];
-          Building *b = dynamic_cast<Building*>(notseen);
-          if(b != NULL) //Corrige les symptomes mais pas la maladie
+        if(e->getType().isBuilding()) {
+          Building *b = dynamic_cast<Building*>(GraviticBooster::getEntities()[e->getID()]);
+          if(curDist < buildingDist && !b->seen() && (entity.second->getOwner() != b->getOwner())) {
+            buildingDist = curDist;
+            building = e;
+          }
+          if(e->isVisible(u->getPlayer()))
             b->setVisibility(true);
         }
       }
       pos = enemy->getPosition();
-      entity.second->setClosestEnemyPosition(Position(pos.x, pos.y)); // FIXME ca plante
+      entity.second->setClosestEnemyPosition(Position(pos.x, pos.y));
+      if(building != NULL) {
+        pos = building->getPosition();
+        entity.second->setClosestUnseenBuildingPosition(Position(pos.x, pos.y));
+      } else {
+        entity.second->setClosestUnseenBuildingPosition(Position(-1, -1));
+      }
       entity.second->isAttacking(u->isAttacking());
-      //std::cout << u->getType() << std::endl;
     }
     GraviticBooster::update();
     changeCameraPosition();

@@ -1,10 +1,11 @@
 #include "Entity.h"
 #include "GraviticBooster.h"
+#include "Building.h"
 #include <sstream>
 
 Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas,
                const double dpf, const unsigned int owner) :
-               _position(position), _closestEnemyPosition(0, 0) {
+               _position(position), _closestEnemyPosition(0, 0), _closestUnseenBuildingPosition(-1,-1) {
   _id = id;
   _minerals = minerals;
   _gas = gas;

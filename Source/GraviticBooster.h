@@ -29,5 +29,4 @@ public:
   static void addEntity(int id, Entity *entity) { GraviticBooster::_entities[id] = entity; }
   static std::unordered_map<int, Entity*> getEntities() { return GraviticBooster::_entities; }
   static void update();
-  static Building* closestUnseenBuilding(Position pos, int owner);
 };

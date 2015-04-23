@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+class Building;
+
 class Entity {
 public:
   Entity(unsigned int id, Position position, unsigned int minerals, unsigned int gas, double dpf, unsigned int owner);
@@ -15,6 +17,8 @@ public:
   void setPosition(const Position &position) { _position = position; }
   Position getClosestEnemyPosition() const { return _closestEnemyPosition; }
   void setClosestEnemyPosition(const Position &position) { _closestEnemyPosition = position; }
+  Position getClosestUnseenBuildingPosition() const { return _closestUnseenBuildingPosition; }
+  void setClosestUnseenBuildingPosition(const Position &position) { _closestUnseenBuildingPosition = position; }
   int getId() const { return _id; }
   int getOwner() const { return _owner; }
   int getCreationTime() const { return _creationTime; }
@@ -33,7 +37,7 @@ public:
   friend std::ostream& operator<< (std::ostream &stream, const Entity& unit);
 
 protected:
-  Position _position, _closestEnemyPosition;
+  Position _position, _closestEnemyPosition, _closestUnseenBuildingPosition;
   unsigned int _id, _minerals, _gas, _owner, _creationTime;
   double _dpf;
   bool _isAttacking;

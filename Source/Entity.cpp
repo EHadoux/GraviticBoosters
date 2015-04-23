@@ -1,6 +1,5 @@
 #include "Entity.h"
 #include "GraviticBooster.h"
-#include "Building.h"
 #include <sstream>
 
 Entity::Entity(const unsigned int id, Position position, const unsigned int minerals, const unsigned int gas,

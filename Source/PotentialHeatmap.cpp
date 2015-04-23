@@ -14,7 +14,7 @@ PotentialHeatmap::PotentialHeatmap(unsigned int width, unsigned int height) {
   _mode = MIXED;
 
   std::cout << "Create window..." << std::endl;;
-  _window = SDL_CreateWindow("GraviticBoosters (heatmap)",
+  _window = SDL_CreateWindow("GraviticBoosters (heatmap) : (A)GGRESSION (E)CONOMIC (S)TRATEGIC (M)IXED",
                              SDL_WINDOWPOS_UNDEFINED,
                              SDL_WINDOWPOS_UNDEFINED,
                              width, height,
@@ -38,7 +38,22 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
     SDL_DestroyWindow(_window);
     SDL_Quit();
     break;
-    // TODO 
+  case SDL_KEYDOWN:
+    switch(_event.key.keysym.sym) {
+    case SDLK_m:
+      _mode = MIXED;
+      break;
+    case SDLK_a:
+      _mode = AGGRESSION;
+      break;
+    case SDLK_s:
+      _mode = STRATEGIC;
+      break;
+    case SDLK_e:
+      _mode = ECONOMIC;
+      break;
+    }
+    break;
   }
 
   _tileW = _width / map->getNumOfTilesH();
@@ -84,8 +99,28 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
 
 SDL_Color PotentialHeatmap::potentialToColor(Tile * tile, Tile * maxTile) {
   SDL_Color color;
-  color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->getAggressionPotential());
-  color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->getEconomicPotential());
-  color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->getStrategicPotential());
+  switch(_mode) {
+  case MIXED:
+    color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->getAggressionPotential());
+    color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->getEconomicPotential());
+    color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->getStrategicPotential());
+    break;
+  case AGGRESSION:
+    color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->getAggressionPotential());
+    color.g = 0;
+    color.b = 0;
+    break;
+  case ECONOMIC:
+    color.r = 0;
+    color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->getEconomicPotential());
+    color.b = 0;
+    break;
+  case STRATEGIC:
+    color.r = 0;
+    color.g = 0;
+    color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->getStrategicPotential());
+    break;
+  }
+
   return color;
 }

@@ -15,7 +15,7 @@ Unit::Unit(const unsigned int id, Position position, const unsigned int minerals
 Unit::~Unit() {}
 
 double Unit::economicPotential() const {
-  double pot = (_isWorker ? MININGPOTENTIAL / (GraviticBooster::getClock() - getCreationTime()) : .0) + _minerals / 1000 + _gas / 1000;
+  double pot = (_isWorker ? MININGPOTENTIAL / (GraviticBooster::getClock() - getCreationTime()) : .0);
   assert(pot <= 1 && pot >= 0);
   return pot;
 }
@@ -28,7 +28,7 @@ double Unit::aggressionPotential() const {
 
 double Unit::strategicPotential() const {
   if(_closestUnseenBuildingPosition.getX() != -1) {
-    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance();
+    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance() + _gas / _minerals;
     assert(pot <= 1 && pot >= 0);
     return pot;
   } else

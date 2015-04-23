@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 100
+#define RADIUS 6
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -68,43 +68,19 @@ void Map::update() {
 void Map::propagatePotential() {
   std::vector<std::tuple<double, double, double>> old(_tiles.size());
   std::transform(_tiles.begin(), _tiles.end(), old.begin(), [](Tile *t) {return t->getPotential(); });
-  double dist, delta;
-  for(unsigned int i = 0; i < _tiles.size(); ++i)
-    if(std::get<0>(old[i]) > .0 || std::get<1>(old[i]) > .0 || std::get<2>(old[i]) > .0)
-      for(unsigned int y = 0; y < _tiles.size(); ++y) {
-        if(i == y)
-          continue;
-        dist = getPosition(i).euclidian(getPosition(y));
-        if(dist < RADIUS) {
-          delta = 1 + cos((dist / RADIUS)*PI) / 2;
-          if(std::get<0>(old[i]) > .0) _tiles[y]->setAggressionPotential((_tiles[y]->getAggressionPotential() + std::get<0>(old[i]) * delta) / 2);
-          if(std::get<1>(old[i]) > .0) _tiles[y]->setEconomicPotential((_tiles[y]->getEconomicPotential() + std::get<1>(old[i]) * delta) / 2);
-          if(std::get<2>(old[i]) > .0) _tiles[y]->setStrategicPotential((_tiles[y]->getStrategicPotential() + std::get<2>(old[i]) * delta) / 2);
-        }
-      }
-
-  /* CHANTIER
-  int rs = ceil(RADIUS * 2.57);
-  for(unsigned int i = 0; i < _numOfTilesH; i++)
-    for(unsigned int j = 0; j < _numOfTilesV; j++) {
-      double valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
-      for(unsigned int iy = i - rs; iy < i + rs + 1; iy++)
-        for(unsigned int ix = j - rs; ix < j + rs + 1; ix++) {
-          unsigned int x = fmin(_numOfTilesV - 1, fmax(0, ix));
-          unsigned int y = fmin(_numOfTilesH - 1, fmax(0, iy));
-          double dsq = (ix - j)*(ix - j) + (iy - i)*(iy - i);
-          double wght = exp(-dsq / (2 * RADIUS*RADIUS)) / (PI * 2 * RADIUS*RADIUS);
-          valAp += std::get<0>(old[y*_numOfTilesV + x]) * wght;
-          valEp += std::get<1>(old[y*_numOfTilesV + x]) * wght;
-          valSp += std::get<2>(old[y*_numOfTilesV + x]) * wght;
-          wsum += wght;
-
-          std::cout << wght << std::endl;
-        }
-      _tiles[i*_numOfTilesV + j]->setAggressionPotential(valAp / wsum);
-      _tiles[i*_numOfTilesV + j]->setEconomicPotential(valEp / wsum);
-      _tiles[i*_numOfTilesV + j]->setStrategicPotential(valSp / wsum);
-
+  double dist, wght, valAp, valEp, valSp, wsum;
+  for(unsigned int i = 0; i < _tiles.size(); ++i) {
+    valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
+    for(unsigned int y = 0; y < _tiles.size(); ++y) {
+      dist = getPosition(i).euclidian(getPosition(y));
+      if(i == y || dist > RADIUS)
+        continue;
+      wght = exp(-dist / (2 * RADIUS*RADIUS)) / (PI * 2 * RADIUS*RADIUS);
+      valAp += std::get<0>(old[y]) * wght;
+      valEp += std::get<1>(old[y]) * wght;
+      valSp += std::get<2>(old[y]) * wght;
+      wsum += wght;
     }
-    */
+    _tiles[i]->setPotentials(valAp / wsum, valEp / wsum, valSp / wsum);
+  }
 }

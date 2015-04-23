@@ -71,7 +71,7 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
   for(unsigned int w = 0; w < map->getNumOfTilesH(); w++) {
     for(unsigned int h = 0; h < map->getNumOfTilesV(); h++) {
       tile = map->getTileAt(w, h);
-      color = potentialToColor(tile, map->getMaxTile());
+      color = potentialToColor(tile);
       r.x = _tileW * w;
       r.y = _tileH * h;
       SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, 255);
@@ -97,28 +97,28 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
   SDL_RenderPresent(_renderer);
 }
 
-SDL_Color PotentialHeatmap::potentialToColor(Tile * tile, Tile * maxTile) {
+SDL_Color PotentialHeatmap::potentialToColor(Tile * tile) {
   SDL_Color color;
   switch(_mode) {
   case MIXED:
-    color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->getAggressionPotential());
-    color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->getEconomicPotential());
-    color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->getStrategicPotential());
+    color.r = (int)(tile->getAggressionPotential() * 255);
+    color.g = (int)(tile->getEconomicPotential() * 255);
+    color.b = (int)(tile->getStrategicPotential() * 255);
     break;
   case AGGRESSION:
-    color.r = (int)((tile->getAggressionPotential() * 255) / maxTile->getAggressionPotential());
+    color.r = (int)(tile->getAggressionPotential() * 255);
     color.g = 0;
     color.b = 0;
     break;
   case ECONOMIC:
     color.r = 0;
-    color.g = (int)((tile->getEconomicPotential() * 255) / maxTile->getEconomicPotential());
+    color.g = (int)(tile->getEconomicPotential() * 255);
     color.b = 0;
     break;
   case STRATEGIC:
     color.r = 0;
     color.g = 0;
-    color.b = (int)((tile->getStrategicPotential() * 255) / maxTile->getStrategicPotential());
+    color.b = (int)(tile->getStrategicPotential() * 255);
     break;
   }
 

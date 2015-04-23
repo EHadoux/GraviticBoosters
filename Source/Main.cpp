@@ -63,7 +63,7 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
           enemy = e;
         }
         if(e->getType().isBuilding()) {
-          if(GraviticBooster::getEntities().find(e->getID()) != GraviticBooster::getEntities().end()) {
+          if(GraviticBooster::getEntities().count(e->getID()) > 0) {
             Building *b = dynamic_cast<Building*>(GraviticBooster::getEntities()[e->getID()]);
             if(curDist < buildingDist && !b->seen() && (entity.second->getOwner() != b->getOwner())) {
               buildingDist = curDist;

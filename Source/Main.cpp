@@ -78,9 +78,8 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     }
     GraviticBooster::update();
     changeCameraPosition();
-    //Sleep(100);
     mutex.unlock();
-    Sleep(100);
+    Sleep(50);
   }
 }
 

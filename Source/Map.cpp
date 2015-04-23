@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 6
+#define RADIUS 100
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -60,7 +60,7 @@ void Map::update() {
       ep += e->economicPotential();
       sp += e->strategicPotential();
     }
-    tile->setPotentials(ap, ep, sp);
+    tile->setPotentials(ap / entities.size(), ep / entities.size(), sp / entities.size());
   }
   propagatePotential();
 }
@@ -82,4 +82,29 @@ void Map::propagatePotential() {
           if(std::get<2>(old[i]) > .0) _tiles[y]->setStrategicPotential((_tiles[y]->getStrategicPotential() + std::get<2>(old[i]) * delta) / 2);
         }
       }
+
+  /* CHANTIER
+  int rs = ceil(RADIUS * 2.57);
+  for(unsigned int i = 0; i < _numOfTilesH; i++)
+    for(unsigned int j = 0; j < _numOfTilesV; j++) {
+      double valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
+      for(unsigned int iy = i - rs; iy < i + rs + 1; iy++)
+        for(unsigned int ix = j - rs; ix < j + rs + 1; ix++) {
+          unsigned int x = fmin(_numOfTilesV - 1, fmax(0, ix));
+          unsigned int y = fmin(_numOfTilesH - 1, fmax(0, iy));
+          double dsq = (ix - j)*(ix - j) + (iy - i)*(iy - i);
+          double wght = exp(-dsq / (2 * RADIUS*RADIUS)) / (PI * 2 * RADIUS*RADIUS);
+          valAp += std::get<0>(old[y*_numOfTilesV + x]) * wght;
+          valEp += std::get<1>(old[y*_numOfTilesV + x]) * wght;
+          valSp += std::get<2>(old[y*_numOfTilesV + x]) * wght;
+          wsum += wght;
+
+          std::cout << wght << std::endl;
+        }
+      _tiles[i*_numOfTilesV + j]->setAggressionPotential(valAp / wsum);
+      _tiles[i*_numOfTilesV + j]->setEconomicPotential(valEp / wsum);
+      _tiles[i*_numOfTilesV + j]->setStrategicPotential(valSp / wsum);
+
+    }
+    */
 }

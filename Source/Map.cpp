@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 6
+#define RADIUS 5
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -71,14 +71,15 @@ void Map::propagatePotential() {
   double dist, wght, valAp, valEp, valSp, wsum;
   for(unsigned int i = 0; i < _tiles.size(); ++i) {
     valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
-    for(unsigned int y = 0; y < _tiles.size(); ++y) {
-      dist = getPosition(i).euclidian(getPosition(y));
-      if(i == y || dist > RADIUS)
+    for(unsigned int j = 0; j < _tiles.size(); ++j) {
+      dist = getPosition(i).euclidian(getPosition(j));
+      if(dist > RADIUS)
         continue;
-      wght = exp(-dist / (2 * RADIUS*RADIUS)) / (PI * 2 * RADIUS*RADIUS);
-      valAp += std::get<0>(old[y]) * wght;
-      valEp += std::get<1>(old[y]) * wght;
-      valSp += std::get<2>(old[y]) * wght;
+      dist = (dist * 2.57) / RADIUS;
+      wght = exp(-dist * dist / 2) / sqrt(2 * PI);
+      valAp += std::get<0>(old[j]) * wght;
+      valEp += std::get<1>(old[j]) * wght;
+      valSp += std::get<2>(old[j]) * wght;
       wsum += wght;
     }
     _tiles[i]->setPotentials(valAp / wsum, valEp / wsum, valSp / wsum);

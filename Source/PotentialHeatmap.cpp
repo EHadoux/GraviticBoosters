@@ -1,4 +1,5 @@
 #include "PotentialHeatmap.h"
+#include "GraviticBooster.h"
 
 PotentialHeatmap::PotentialHeatmap(unsigned int width, unsigned int height) {
 
@@ -63,16 +64,22 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
     }
   }
 
-  SDL_SetRenderDrawColor(_renderer, 60, 60, 60, 255);
+  SDL_SetRenderDrawColor(_renderer, 40, 40, 40, 255);
   for(unsigned int i = 0; i < map->getWidth(); i++)
     SDL_RenderDrawLine(_renderer, i*_tileW, 0, i*_tileW, _height);
   for(unsigned int j = 0; j < map->getHeight(); j++)
     SDL_RenderDrawLine(_renderer, 0, j*_tileH, _width, j*_tileH);
 
-  // TODO display camera
+  SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+  int camX = (GraviticBooster::getCamera()->getPosition().getX()*_width) / map->getWidth();
+  int camY = (GraviticBooster::getCamera()->getPosition().getY()*_height) / map->getHeight();
+  r.x = camX - 15; r.y = camY - 15;
+  SDL_RenderDrawLine(_renderer, camX - 15, camY, camX + 14, camY);
+  SDL_RenderDrawLine(_renderer, camX, camY - 15, camX, camY + 14);
+  r.w = 30; r.h = 30;
+  SDL_RenderDrawRect(_renderer, &r);
 
   SDL_RenderPresent(_renderer);
-
 }
 
 SDL_Color PotentialHeatmap::potentialToColor(Tile * tile, Tile * maxTile) {

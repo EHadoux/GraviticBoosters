@@ -1,8 +1,8 @@
 #include "Camera.h"
 #include "GraviticBooster.h"
 
-#define TMIN 60
-#define TMAX 150
+#define TMIN 10
+#define TMAX 30
 
 Camera::Camera(Position position) :
 _position(position) {}

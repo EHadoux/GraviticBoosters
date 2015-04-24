@@ -49,11 +49,12 @@ Indeed, players need workers and bases to gather resources allowing them to make
 However, as they cannot train workers and units at the same time, they need to choose to go agressive or economic based on gathered strategic information.
 The purpose of this model is to show where and when those choices are made and thus complementing the work of the casters (the commentators).
 
-To that end, the map is discretized so that each cell aggregates the potentials of all entities composing it. The camera is then simply positioned at the maximum value of the resulting matrix.
+To that end, the map is discretized so that each cell aggregates the potentials of all entities composing it. 
+The camera is then simply positioned at the maximum value of the resulting matrix.
 To enhance position on the game's action, we smooth the potential matrix using a gaussian kernel. 
 This allows, for instance, to position the camera between two armies facing each other. 
 
-We also added two dynamic parameters to the camera: \emph{commitment} and \emph{weariness} in order to limit both disturbing too-frequent changes and over-attention to the same area.
+We also added two dynamic parameters to the camera: \emph{commitment} and \emph{weariness} in order to limit both too-frequent disturbing changes and over-attention to the same area.
 
 \section{Implementation}
 
@@ -66,9 +67,14 @@ The figure above shows a Starcraft game and a corresponding visualization of the
 RGB colors are used to encode the three components: red represents the aggressive potential, green the economic potential and blue the strategic one.
 
 \section{Perspectives}
-We consider several perspectives in the context of our work...
+We consider several perspectives in the context of this work in order to increase the accuracy of our observer.
+Firstly, we plan to take in account the spaciality of the events (unit creations, skirmishes, \emph{etc.}).
+Self-Organizing Maps seem very adapted for such a purpose.
+Secondly, we could use clusterization to group similar game sequences.
+This will allow to not only follow the action, but also explain what it is going on.
+Those two perspectives are works in progress.
 
-The video game industry continues to expand as very little AI has been involved in this expansion~\cite{miikkulainen2007creating}. Especially since AI is not a priority of publishers compared to \textit{e.g.} graphics with a better marketing value. Nevertheless, we believe that AI can bring more to this media as we try to illustrate with our work presented in this paper. Especially in esport where some competitions have now over 10.000.000\$ in prize money and where stadiums are under construction.
+The video game industry continues to expand while almost no AI has been involved in this expansion~\cite{miikkulainen2007creating}. Especially since AI is not a priority of publishers compared to \textit{e.g.} graphics with a better marketing value. Nevertheless, we believe that AI can bring more to this media as we try to illustrate with our work presented in this paper. Especially in esport where some competitions have now over 10.000.000\$ in prize money and where stadiums are under construction.
 We argue that research should be encouraged to take advantage of this recent expansion.
 
 \bibliographystyle{plain}

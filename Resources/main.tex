@@ -1,14 +1,24 @@
-\documentclass{article}
+\documentclass{jfsma}
 \usepackage{lmodern}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{cuted}
+\usepackage{etoolbox}
 
-\title{Automatic observer for real-time strategy games}
-\author{Emmanuel \textsc{Hadoux} \and Thomas \textsc{Huraux}}
-\date{}
+\titre{Automatic Observer For Real-Time Strategy Games} % On garde ce titre ?
+\auteur{Emmanuel \textsc{Hadoux}}{emmanuel.hadoux@gmail.com}
+\auteur{Thomas \textsc{Huraux}}{thomas.huraux@gmail.com}
+\institution{
+  LIP6, CNRS UMR 7606,\\
+  Universit\'e Pierre et Marie Curie, France}
 
 \begin{document}
 	\maketitle
+	
+	\begin{strip}
+  \centering\noindent
+  \includegraphics[scale=0.35]{gfx/GB}
+\end{strip}
 
 	\section{Introduction}
     	Electronic sport (\textit{e-sport}) is a not-so-young discipline slowly growing in western countries.
@@ -26,4 +36,21 @@
         \medskip
         In this work, we propose to replace the human observer by an automatic observer, able to catch every piece of action.
         etc.
+        
+\section{Overview}
+We develop an automatic observer called \emph{Gravitic Boosters}...
+
+Each entity of the has three potentials calculated in real time during the game:
+\begin{description}
+\item[aggressive potential]
+\item[economic potential]
+\item[strategic potential]
+\end{description}
+
+The map is then discretized so that each cell aggregates the potential of all entities that compose it.
+
+To better position the camera on the action, we smooth the potential matrix with a gaussian kernel. This allows in particular to position the camera between two armies facing each other.
+        
+\section{Conclusion}
+...
 \end{document}

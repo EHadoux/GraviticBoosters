@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 4
+#define RADIUS 6
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -59,20 +59,15 @@ void Map::update() {
       ap += e->aggressionPotential(); ep += e->economicPotential(); sp += e->strategicPotential();
     }
     ap /= entities.size(); ep /= entities.size(); sp /= entities.size();
-    if(ap > maxAp) maxAp = ap;
-    if(ep > maxEp) maxEp = ep;
-    if(sp > maxSp) maxSp = sp;
     tile->setPotentials(ap, ep, sp);
-  }
-  for(auto tile : _tiles)
-    tile->setPotentials(tile->getAggressionPotential() / maxAp, tile->getEconomicPotential() / maxEp, tile->getStrategicPotential() / maxSp);
+  }  
   propagatePotential();
 }
 
 void Map::propagatePotential() {
   std::vector<std::tuple<double, double, double>> old(_tiles.size());
   std::transform(_tiles.begin(), _tiles.end(), old.begin(), [](Tile *t) {return t->getPotential(); });
-  double dist, wght, valAp, valEp, valSp, wsum;
+  double dist, wght, valAp, valEp, valSp, wsum, maxAp = .0, maxEp = .0, maxSp = .0;
   for(unsigned int i = 0; i < _tiles.size(); ++i) {
     valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
     for(unsigned int j = 0; j < _tiles.size(); ++j) {
@@ -80,12 +75,17 @@ void Map::propagatePotential() {
       if(dist > RADIUS)
         continue;
       dist = (dist * 2.57) / RADIUS;
-      wght = exp(-dist * dist / 2) / sqrt(2 * PI);
+      wght = exp(-dist * dist ) / sqrt(2 * PI);
       valAp += std::get<0>(old[j]) * wght;
       valEp += std::get<1>(old[j]) * wght;
       valSp += std::get<2>(old[j]) * wght;
       wsum += wght;
     }
+    if(valAp / wsum > maxAp) maxAp = valAp / wsum;
+    if(valEp / wsum > maxEp) maxEp = valEp / wsum;
+    if(valSp / wsum > maxSp) maxSp = valSp / wsum;
     _tiles[i]->setPotentials(valAp / wsum, valEp / wsum, valSp / wsum);
   }
+  for(auto tile : _tiles)
+    tile->setPotentials(tile->getAggressionPotential() / maxAp, tile->getEconomicPotential() / maxEp, tile->getStrategicPotential() / maxSp);
 }

@@ -99,6 +99,7 @@ void PotentialHeatmap::update(Map * map, Camera * camera) {
 
 SDL_Color PotentialHeatmap::potentialToColor(Tile * tile) {
   SDL_Color color;
+  color.r = 0; color.g = 0; color.b = 0;
   switch(_mode) {
   case MIXED:
     color.r = (int)(tile->getAggressionPotential() * 255);
@@ -107,17 +108,11 @@ SDL_Color PotentialHeatmap::potentialToColor(Tile * tile) {
     break;
   case AGGRESSION:
     color.r = (int)(tile->getAggressionPotential() * 255);
-    color.g = 0;
-    color.b = 0;
     break;
   case ECONOMIC:
-    color.r = 0;
     color.g = (int)(tile->getEconomicPotential() * 255);
-    color.b = 0;
     break;
   case STRATEGIC:
-    color.r = 0;
-    color.g = 0;
     color.b = (int)(tile->getStrategicPotential() * 255);
     break;
   }

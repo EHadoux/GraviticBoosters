@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 5
+#define RADIUS 4
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -48,7 +48,7 @@ Position Map::getPosition(const unsigned int id) const {
 }
 
 void Map::update() {
-  double ap = .0, ep = .0, sp = .0;
+  double ap = .0, ep = .0, sp = .0, maxAp = .0, maxEp = .0, maxSp = .0;
   for(auto tile : _tiles) {
     auto entities = tile->getEntities();
     if(entities.empty()) {
@@ -56,12 +56,16 @@ void Map::update() {
       continue;
     }
     for(auto e : entities) {
-      ap += e->aggressionPotential();
-      ep += e->economicPotential();
-      sp += e->strategicPotential();
+      ap += e->aggressionPotential(); ep += e->economicPotential(); sp += e->strategicPotential();
     }
-    tile->setPotentials(ap / entities.size(), ep / entities.size(), sp / entities.size());
+    ap /= entities.size(); ep /= entities.size(); sp /= entities.size();
+    if(ap > maxAp) maxAp = ap;
+    if(ep > maxEp) maxEp = ep;
+    if(sp > maxSp) maxSp = sp;
+    tile->setPotentials(ap, ep, sp);
   }
+  for(auto tile : _tiles)
+    tile->setPotentials(tile->getAggressionPotential() / maxAp, tile->getEconomicPotential() / maxEp, tile->getStrategicPotential() / maxSp);
   propagatePotential();
 }
 

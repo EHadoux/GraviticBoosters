@@ -16,23 +16,17 @@ Unit::~Unit() {}
 
 double Unit::economicPotential() const {
   double pot = (_isWorker ? MININGPOTENTIAL / (GraviticBooster::getClock() - getCreationTime()) : .0);
-  assert(pot <= 1);
-  assert(pot >= 0);
   return pot;
 }
 
 double Unit::aggressionPotential() const {
   double pot = _velocity / _position.euclidian(_closestEnemyPosition) * _dpf * 100;
-  assert(pot <= 1);
-  assert(pot >= 0);
   return pot;
 }
 
 double Unit::strategicPotential() const {
   if(_closestUnseenBuildingPosition.getX() != -1) {
-    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance() + _gas / _minerals;
-    assert(pot <= 1);
-    assert(pot >= 0);
+    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance() + _gas * .01 + _minerals * .01;
     return pot;
   } else
     return 0;

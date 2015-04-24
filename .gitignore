@@ -229,3 +229,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+Resources/main.aux
+Resources/main.pdf
+Resources/main.synctex.gz
+Resources/main.out

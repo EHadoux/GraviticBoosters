@@ -23,7 +23,6 @@
 	\section{Introduction}
     	Electronic sport (\textit{e-sport}) is a not-so-young discipline slowly growing in western countries.
         It takes root in South-Korea about 15 years ago. 
-        In this country, players are rockstars, brawling in front of ten of thousands viewers, on site or on national TV. % T : ca c'est un peu de la branlette
         The first game entering the closed category of e-sport was Starcraft 1. % T: faut voir si on parle tout de suite de SC ou alors on vise un truc plus générique
         This fast-paced real-time strategy game (\textit{RTS}) was released in 1998.
         
@@ -34,25 +33,36 @@
         Few persons are able to gather all those skills, making them even more famous than some professional players.
         
         \medskip
-        In this work, we propose to replace the human observer by an automatic observer, able to catch every piece of action.
-        etc.
+        In this work, we propose an automatic observer able to catch every piece of action to help or replace the human observer.
         
 \section{Overview}
-We develop an automatic observer called \emph{Gravitic Boosters}...
+We set ourselves two constraints to the realization of an automatic observer: on one hand real time calculation to be used in the context of a real game with pro players, and on the other hand, to use only standard information that can be found in any RTS (position, unit price, damage, ...).
 
-We set ourselves two constraints to the realization of an automatic observer: on the one hand real time calculation to be used in the context of a real game with pro players, and on the other hand, to use only standard information that can be found in any RTS (such as position, price, damage, ...).
-
-Each entity has three potentials calculated in real time during the game:
+Each entity (unit and building) has three potentials calculated in real time during the game:
 \begin{description}
-\item[aggressive potential] allows to anticipate the interest of an upcoming fight by taking into account the distance to the enemy and the DPS
-\item[economic potential]
-\item[strategic potential]
+\item[aggressive potential] allows to anticipate the interest of an upcoming fight by taking into account the distance to the enemy and the damage per second (\emph{DPS})
+\item[economic potential] informs on base creation, workers training, etc.
+\item[strategic potential] shows information-taking units (called \emph{scoot}) 
 \end{description}
+Those three features are the most important side of a competitive RTS game.
+Indeed, players need workers and bases to gather resources allowing them to make units to build an army.
+However, as they cannot train workers and units at the same time, they need to choose to go agressive or economic based on gathered strategic information.
+The purpose of this model is to show where and when those choices are made and thus complementing the work of the casters (the commentators).
 
-The map is then discretized so that each cell aggregates the potential of all entities that compose it. To better position the camera on the action, we smooth the potential matrices using a gaussian kernel. This allows for instance to position the camera between two armies facing each other. The figure above shows a visualization of these potentials as a heat map: we use RGB colors to encode three components such as red represents the aggressive potential, green the economic potential and blue the strategic one.
+The map is discretized so that each cell aggregates the potentials of all entities composing it. 
+To better position the camera on the action, we smooth the potential matrices using a gaussian kernel. 
+This allows for instance to position the camera between two armies facing each other. 
+The figure above shows a visualization of these potentials as a heat map.
+RGB colors are used to encode the three components: red represents the aggressive potential, green the economic potential and blue the strategic one.
 
-We tested our approach on the RTS Starcraft Broodwar\footnote{\url{http://us.blizzard.com/en-us/games/sc/}}. The BWAPI API\cite{}, which has been used in StarCraft AI Competitions\cite{}, enables to retrieve all current information and to take control of both the units and the game interface. 
-        
-\section{Conclusion}
-...
+We also added two dynamic parameters to the camera: commitment and weariness in order to break even without staying on the same spot for too long.
+
+We develop an automatic observer based on our model called \emph{Gravitic Boosters}\,\footnote{\url{http://github.com/EHadoux/GraviticBoosters}}.
+We tested our approach on Starcraft Broodwar\,\footnote{\url{http://us.blizzard.com/en-us/games/sc/}}. 
+The BWAPI API\,\footnote{\url{http://github.com/BWAPI/BWAPI}} enables to retrieve all current information and to take control of both the units and the game interface.
+As a side note, this API has been used for 5 years in several StarCraft AI Competitions, supported by the University of Alberta\,\footnote{\url{http://webdocs.cs.ualberta.ca/~cdavid/starcraftaicomp/}}  
+
+\section{Perspectives}
+
+
 \end{document}

@@ -40,16 +40,18 @@
 \section{Overview}
 We develop an automatic observer called \emph{Gravitic Boosters}...
 
-Each entity of the has three potentials calculated in real time during the game:
+We set ourselves two constraints to the realization of an automatic observer: on the one hand real time calculation to be used in the context of a real game with pro players, and on the other hand, to use only standard information that can be found in any RTS (such as position, price, damage, ...).
+
+Each entity has three potentials calculated in real time during the game:
 \begin{description}
-\item[aggressive potential]
+\item[aggressive potential] allows to anticipate the interest of an upcoming fight by taking into account the distance to the enemy and the DPS
 \item[economic potential]
 \item[strategic potential]
 \end{description}
 
-The map is then discretized so that each cell aggregates the potential of all entities that compose it.
+The map is then discretized so that each cell aggregates the potential of all entities that compose it. To better position the camera on the action, we smooth the potential matrices using a gaussian kernel. This allows for instance to position the camera between two armies facing each other. The figure above shows a visualization of these potentials as a heat map: we use RGB colors to encode three components such as red represents the aggressive potential, green the economic potential and blue the strategic one.
 
-To better position the camera on the action, we smooth the potential matrix with a gaussian kernel. This allows in particular to position the camera between two armies facing each other.
+We tested our approach on the RTS Starcraft Broodwar\footnote{\url{http://us.blizzard.com/en-us/games/sc/}}. The BWAPI API\cite{}, which has been used in StarCraft AI Competitions\cite{}, enables to retrieve all current information and to take control of both the units and the game interface. 
         
 \section{Conclusion}
 ...

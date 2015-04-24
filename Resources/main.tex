@@ -6,11 +6,11 @@
 \usepackage{etoolbox}
 
 \titre{Automatic Observer For Real-Time Strategy Games} % On garde ce titre ?
-\auteur{Emmanuel \textsc{Hadoux}}{emmanuel.hadoux@gmail.com}
-\auteur{Thomas \textsc{Huraux}}{thomas.huraux@gmail.com}
+\auteur{Emmanuel \textsc{Hadoux}}{emmanuel.hadoux@lip6.fr}
+\auteur{Thomas \textsc{Huraux}}{thomas.huraux@lip6.fr}
 \institution{
   LIP6, CNRS UMR 7606,\\
-  Universit\'e Pierre et Marie Curie, France}
+  Universit\'e Pierre et Marie Curie, Paris, France}
 
 \begin{document}
 	\maketitle
@@ -38,12 +38,11 @@
 \section{Overview}
 We set ourselves two constraints to the realization of an automatic observer: on one hand real time calculation to be used in the context of a real game with pro players, and on the other hand, to use only standard information that can be found in any RTS (position, unit price, damage, ...).
 
-Each entity (unit and building) has three potentials calculated in real time during the game:
-\begin{description}
-\item[aggressive potential] allows to anticipate the interest of an upcoming fight by taking into account the distance to the enemy and the damage per second (\emph{DPS})
-\item[economic potential] informs on base creation, workers training, etc.
-\item[strategic potential] shows information-taking units (called \emph{scoot}) 
-\end{description}
+Each entity (unit or building) has three potentials calculated in real time during the game:\\
+\textbf{aggressive potential} allows to anticipate the interest of an upcoming fight by taking into account the distance to the enemy and the damage per second (\emph{DPS})\\
+\textbf{economic potential} informs on base creation, workers training, etc.\\
+\textbf{strategic potential} shows information-taking units (called \emph{scoot}) 
+
 Those three features are the most important side of a competitive RTS game.
 Indeed, players need workers and bases to gather resources allowing them to make units to build an army.
 However, as they cannot train workers and units at the same time, they need to choose to go agressive or economic based on gathered strategic information.

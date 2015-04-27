@@ -35,7 +35,6 @@
 
 \LoadClass{article}
 \RequirePackage[latin1]{inputenc}
-\RequirePackage[francais]{babel}
 \RequirePackage{graphicx}
 \RequirePackage{url}
 

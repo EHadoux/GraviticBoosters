@@ -13,16 +13,16 @@
   Universit\'e Pierre et Marie Curie, Paris, France}
 
 \begin{document}
-	\maketitle
+\maketitle
 
-	\begin{strip}
+\begin{strip}
   \centering\noindent
   \includegraphics[scale=0.30]{gfx/GB}
   \vspace{0.3cm}
 \end{strip}
 
 	\section{Context}
-    Electronic sport (\textit{e-sport}) is a not-so-young discipline slowly growing in western countries.
+    Electronic sport (\textit{e-sport}) is a not-so-young discipline slowly growing in western countries~\cite{taylor2012raising}.
     It took root in South-Korea about 15 years ago and is currently experiencing an explosion of interest.
     The first game entering the closed category of e-sport was StarCraft 1. % T: faut voir si on parle tout de suite de SC ou alors on vise un truc plus générique
     This fast-paced real-time strategy game (\textit{RTS}) was released in 1998.
@@ -64,14 +64,14 @@ We also added two dynamic parameters to the camera: \emph{commitment} and \emph{
 Based on this method, we develop an automatic observer called \emph{Gravitic Boosters}\,\footnote{\url{http://github.com/EHadoux/GraviticBoosters}}.
 We tested our approach on StarCraft BW\,\footnote{\url{http://us.blizzard.com/en-us/games/sc/}} using
 the BWAPI API~\cite{bwapi} which enables to retrieve all live information and take control of both the units and the game interface.
-As a side note, this API has been used for 5 years in several StarCraft AI Competitions, supported by the University of Alberta\,\footnote{\url{http://webdocs.cs.ualberta.ca/~cdavid/starCraftaicomp/}}.
+As a side note, this API has been used for 5 years in several StarCraft AI Competitions, supported by the University of Alberta\,\footnote{\url{http://webdocs.cs.ualberta.ca/~cdavid/starCraftaicomp/}}. % TODO Revoir cette phrase (cf review 3)
 
 The figure above shows a StarCraft game and a corresponding visualization of the 3 potentials as a heat map.
 RGB colors are used to encode the 3 components: red represents the aggressive potential, green the economic potential and blue the strategic one.
 
 \section{Perspectives}
 We consider several perspectives in the context of this work in order to increase the accuracy of our observer.
-Firstly, we plan to take into account the spaciality of the events (unit creations, skirmishes, \emph{etc.}).
+Firstly, we plan to take into account the spaciality of the events (unit creations, skirmishes, \emph{etc.}). % TODO Expliquer ou enlever
 Self-Organizing Maps seem very adapted for such a purpose.
 Secondly, we could use clusterization to group similar game sequences.
 This will allow the automatic observer to not only follow the action, but also explain what it is going on.

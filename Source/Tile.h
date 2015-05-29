@@ -23,9 +23,12 @@ public:
   void setStrategicPotential(double strategicPotential);
   Position getCenterPosition() const { return _centerPos; }
   std::vector<Entity*> getEntities() const;
+  bool isRelevantPotentialPoint() const;
 
 private:
   Position _centerPos;
   std::tuple<double, double, double> _potential;
+  mutable std::tuple<double, double, double> _referential;
   int _width, _height;
+  mutable std::vector<std::tuple<double, double, double>> _points;
 };

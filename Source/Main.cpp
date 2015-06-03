@@ -32,7 +32,7 @@ void reconnecting() {
 
 void initGraviticBooster() {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth()*TILE_SIZE / 2, BWAPI::Broodwar->mapHeight()*TILE_SIZE / 2);
-  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 40, 40));
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 30, 30));
   GraviticBooster::setHeatmap(new PotentialHeatmap(800, 600));
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
@@ -42,7 +42,7 @@ void changeCameraPosition() {
   BWAPI::Broodwar->setScreenPosition(BWAPI::Position(pos.getX(), pos.getY()) - BWAPI::Position(320, 240));
 }
 
-void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
+void threadGB(std::unordered_map<int, BWAPI::Player> enemies) {
   initGraviticBooster();
   BWAPI::Position pos;
   BWAPI::Unit u, enemy = NULL, building = NULL;
@@ -50,6 +50,8 @@ void theadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     mutex.lock();
     for(auto entity : GraviticBooster::getEntities()) {
       u = BWAPI::Broodwar->getUnit(entity.second->getId());
+      if(u == NULL)
+        continue;
       pos = u->getPosition();
       entity.second->setPosition(Position(pos.x, pos.y));
       double ennemyDist = 9999999999, buildingDist = 999999999999;
@@ -132,7 +134,7 @@ std::thread waitAndInitAMatch() {
   enemies[players[1]->getID()] = players[0];
   //std::cout << bases[0]->getDistance(bases[1]) << std::endl;
   GraviticBooster::setMaxDistance(bases[0]->getDistance(bases[1]) + 400);
-  std::thread runGB(theadGB, enemies);
+  std::thread runGB(threadGB, enemies);
   return runGB;
 }
 

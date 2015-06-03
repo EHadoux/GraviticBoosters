@@ -3,6 +3,8 @@
 #include "Position.h"
 #include "Map.h"
 
+#include <cmath>
+
 class Camera {
 public:
   Camera(Position position);

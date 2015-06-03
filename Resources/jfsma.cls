@@ -85,7 +85,7 @@
 \renewcommand{\rmdefault}{ptm}
 \renewcommand{\ttdefault}{pcr}
 
-\renewcommand{\up}[1]{\textsuperscript{#1}}
+%\renewcommand{\up}[1]{\textsuperscript{#1}}
 
 \renewcommand{\encodingdefault}{T1}
 

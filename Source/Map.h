@@ -25,5 +25,6 @@ private:
   void propagatePotential();
 
   unsigned int _width, _height, _numOfTilesH, _numOfTilesV;
+  double _maxAp = .0, _maxEp = .0, _maxSp = .0;
   std::vector<Tile*> _tiles;  
 };

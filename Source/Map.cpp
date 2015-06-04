@@ -48,7 +48,7 @@ Position Map::getPosition(const unsigned int id) const {
 }
 
 void Map::update() {
-  double ap = .0, ep = .0, sp = .0, maxAp = .0, maxEp = .0, maxSp = .0;
+  double ap = .0, ep = .0, sp = .0;
   for(auto tile : _tiles) {
     auto entities = tile->getEntities();
     if(entities.empty()) {
@@ -67,7 +67,7 @@ void Map::update() {
 void Map::propagatePotential() {
   std::vector<std::tuple<double, double, double>> old(_tiles.size());
   std::transform(_tiles.begin(), _tiles.end(), old.begin(), [](Tile *t) {return t->getPotential(); });
-  double dist, wght, valAp, valEp, valSp, wsum, maxAp = .0, maxEp = .0, maxSp = .0;
+  double dist, wght, valAp, valEp, valSp, wsum;
   for(unsigned int i = 0; i < _tiles.size(); ++i) {
     valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
     for(unsigned int j = 0; j < _tiles.size(); ++j) {
@@ -81,11 +81,11 @@ void Map::propagatePotential() {
       valSp += std::get<2>(old[j]) * wght;
       wsum += wght;
     }
-    if(valAp / wsum > maxAp) maxAp = valAp / wsum;
-    if(valEp / wsum > maxEp) maxEp = valEp / wsum;
-    if(valSp / wsum > maxSp) maxSp = valSp / wsum;
+    if(valAp / wsum > _maxAp) _maxAp = valAp / wsum;
+    if(valEp / wsum > _maxEp) _maxEp = valEp / wsum;
+    if(valSp / wsum > _maxSp) _maxSp = valSp / wsum;
     _tiles[i]->setPotentials(valAp / wsum, valEp / wsum, valSp / wsum);
   }
   for(auto tile : _tiles)
-    tile->setPotentials(tile->getAggressionPotential() / maxAp, tile->getEconomicPotential() / maxEp, tile->getStrategicPotential() / maxSp);
+    tile->setPotentials(tile->getAggressionPotential() / _maxAp, tile->getEconomicPotential() / _maxEp, tile->getStrategicPotential() / _maxSp);
 }

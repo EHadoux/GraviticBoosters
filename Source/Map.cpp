@@ -71,8 +71,8 @@ void Map::propagatePotential() {
   for(unsigned int i = 0; i < _tiles.size(); ++i) {
     valAp = 0., valEp = 0., valSp = 0., wsum = 0.;
     for(unsigned int j = 0; j < _tiles.size(); ++j) {
-      dist = getPosition(i).euclidian(getPosition(j));
-      if(dist > RADIUS)
+     dist = sqrt(pow((double)(i % _numOfTilesH) - (double)(j % _numOfTilesH), 2) + pow((double)(i / _numOfTilesH) - (double)(j / _numOfTilesH), 2));
+     if(dist > RADIUS)
         continue;
       dist = (dist * 2.57) / RADIUS;
       wght = exp(-dist * dist ) / sqrt(2 * PI);

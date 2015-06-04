@@ -3,8 +3,8 @@
 
 #define TMIN 10
 #define TMAX 30
-#define MOVEDIST 500
-#define SPEEDCAM 0.1
+#define MOVEDIST 200
+#define SPEEDCAM 0.05
 
 Camera::Camera(Position position) :
 _position(position) {}

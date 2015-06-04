@@ -14,6 +14,8 @@
 #include <windows.h>
 #include <mutex>
 
+#define SCREENWIDTH 600
+
 std::mutex mutex;
 
 void reconnect() {
@@ -32,8 +34,8 @@ void reconnecting() {
 
 void initGraviticBooster() {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth()*TILE_SIZE / 2, BWAPI::Broodwar->mapHeight()*TILE_SIZE / 2);
-  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, 30, 30));
-  GraviticBooster::setHeatmap(new PotentialHeatmap(800, 600));
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, BWAPI::Broodwar->mapWidth() / 4, BWAPI::Broodwar->mapHeight() / 4));
+  GraviticBooster::setHeatmap(new PotentialHeatmap(SCREENWIDTH, (SCREENWIDTH*BWAPI::Broodwar->mapHeight()) / BWAPI::Broodwar->mapWidth()));
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
 
@@ -89,7 +91,7 @@ void threadGB(std::unordered_map<int, BWAPI::Player> enemies) {
     GraviticBooster::update();
     changeCameraPosition();
     mutex.unlock();
-    Sleep(500);
+    Sleep(50);
   }
 }
 

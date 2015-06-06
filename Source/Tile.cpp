@@ -84,4 +84,5 @@ bool Tile::isRelevantPotentialPoint() const {
 
   if(added)
     _points.push_back(std::make_tuple(agg, eco, strat));
+  return added;
 }

@@ -150,6 +150,7 @@ void treatEvent(const BWAPI::Event &e) {
     break;
   case BWAPI::EventType::UnitDestroy:
     delete GraviticBooster::getEntities()[u->getID()];
+    GraviticBooster::getEntities().erase(u->getID());
     break;
     /*case BWAPI::EventType::UnitMorph:
     u = e.getUnit();

@@ -69,20 +69,21 @@ std::vector<Entity*> Tile::getEntities() const {
 bool Tile::isRelevantPotentialPoint() const {
   double agg = std::get<0>(_potential), eco = std::get<1>(_potential), strat = std::get<2>(_potential);
   bool added = false;
-  if(agg - std::get<0>(_referential) >= 0.05) {
+  if(agg - std::get<0>(_referential) >= 0.2)
     added = true;
+    
+  if(eco - std::get<1>(_referential) >= 0.2)
+    added = true;
+    
+  if(strat - std::get<2>(_referential) >= 0.2)
+    added = true;
+    
+  if(added) {
     std::get<0>(_referential) = agg;
-  }
-  if(eco - std::get<1>(_referential) >= 0.05) {
-    added = true;
     std::get<1>(_referential) = eco;
-  }
-  if(strat - std::get<2>(_referential) >= 0.05) {
-    added = true;
     std::get<2>(_referential) = strat;
-  }
-
-  if(added)
     _points.push_back(std::make_tuple(agg, eco, strat));
+    std::cout << agg << " " << eco << " " << strat << std::endl;
+  }
   return added;
 }

@@ -62,6 +62,8 @@ void Map::update() {
     tile->setPotentials(ap, ep, sp);
   }  
   propagatePotential();
+  for(auto tile : _tiles)
+    tile->isRelevantPotentialPoint();
 }
 
 void Map::propagatePotential() {

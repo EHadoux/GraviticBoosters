@@ -24,6 +24,7 @@ public:
   Position getCenterPosition() const { return _centerPos; }
   std::vector<Entity*> getEntities() const;
   bool isRelevantPotentialPoint() const;
+  std::vector<std::tuple<double, double, double>>& getPoints() const { return _points; }
 
 private:
   Position _centerPos;

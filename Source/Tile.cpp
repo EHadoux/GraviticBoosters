@@ -6,10 +6,20 @@ _centerPos(x, y) {
   _potential = std::make_tuple(.0, .0, .0);
   _referential = std::make_tuple(.0, .0, .0);
   _width = width;
-  _height = height;
+  _height = height;  
 }
 
-Tile::~Tile() {}
+Tile::~Tile() {
+  _file.open("data.txt", std::fstream::out | std::fstream::app);
+  for(auto point : _points) {    
+    double agg = std::get<0>(point), eco = std::get<1>(point), strat = std::get<2>(point);
+    int time = std::get<3>(point);
+    _file << agg << " " << eco << " " << strat << " " << time << std::endl;
+  }
+  _file << std::endl << std::endl;
+
+  _file.close();
+}
 
 void Tile::setPotentials(const double ap, const double ep, const double sp) {
   _potential = std::make_tuple(ap, ep, sp);
@@ -68,7 +78,7 @@ std::vector<Entity*> Tile::getEntities() const {
 
 bool Tile::isRelevantPotentialPoint() const {
   double agg = std::get<0>(_potential), eco = std::get<1>(_potential), strat = std::get<2>(_potential);
-  bool added = false;
+  /*bool added = false;
   if(agg - std::get<0>(_referential) >= 0.2)
     added = true;
     
@@ -78,12 +88,15 @@ bool Tile::isRelevantPotentialPoint() const {
   if(strat - std::get<2>(_referential) >= 0.2)
     added = true;
     
-  if(added) {
-    std::get<0>(_referential) = agg;
+  if(added) {*/
+    /*std::get<0>(_referential) = agg;
     std::get<1>(_referential) = eco;
-    std::get<2>(_referential) = strat;
-    _points.push_back(std::make_tuple(agg, eco, strat));
-    std::cout << agg << " " << eco << " " << strat << std::endl;
-  }
-  return added;
+    std::get<2>(_referential) = strat;*/
+  if((agg + eco + strat) == 0)
+    return true;
+    _points.push_back(std::make_tuple(agg, eco, strat, GraviticBooster::getClock()));
+    std::cout << agg << " " << eco << " " << strat << std::endl;        
+  //}
+  //return added;
+    return true;
 }

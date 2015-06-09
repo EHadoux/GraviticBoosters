@@ -7,6 +7,14 @@ void GraviticBooster::update() {
   GraviticBooster::_camera->update(GraviticBooster::_map);
 }
 
+void GraviticBooster::deleteAll() {
+  for(auto e : _entities)
+    delete e.second;
+  delete _map;
+  delete _phm;
+  delete _camera;
+}
+
 std::unordered_map<int, Entity*> GraviticBooster::_entities;
 double GraviticBooster::_maxDistance;
 unsigned int GraviticBooster::_clock;

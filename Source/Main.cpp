@@ -34,7 +34,7 @@ void reconnecting() {
 
 void initGraviticBooster() {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth()*TILE_SIZE / 2, BWAPI::Broodwar->mapHeight()*TILE_SIZE / 2);
-  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, BWAPI::Broodwar->mapWidth() / 4, BWAPI::Broodwar->mapHeight() / 4));
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, BWAPI::Broodwar->mapWidth() / 8, BWAPI::Broodwar->mapHeight() / 8));
   GraviticBooster::setHeatmap(new PotentialHeatmap(SCREENWIDTH, (SCREENWIDTH*BWAPI::Broodwar->mapHeight()) / BWAPI::Broodwar->mapWidth()));
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
@@ -99,12 +99,15 @@ void createUnit(const BWAPI::Unit &u) {
   BWAPI::UnitType ut = u->getType();
   BWAPI::WeaponType w = ut.groundWeapon();
   BWAPI::Position p = u->getPosition();
-  if(ut.isBuilding())
+  double d = w.damageAmount() / (double)w.damageCooldown();
+  if(w.damageAmount() == 0)
+    d = 0;
+  if(ut.isBuilding())    
     GraviticBooster::addEntity(u->getID(), new Building(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-    w.damageAmount() / (double)w.damageCooldown(), u->getPlayer()->getID(), ut.isResourceDepot()));
-  else
+      d, u->getPlayer()->getID(), ut.isResourceDepot()));
+  else    
     GraviticBooster::addEntity(u->getID(), new Unit(u->getID(), Position(p.x, p.y), ut.mineralPrice(), ut.gasPrice(),
-    w.damageAmount() / (double)w.damageCooldown(), ut.topSpeed(), u->getPlayer()->getID(), ut.isWorker()));
+      d, ut.topSpeed(), u->getPlayer()->getID(), ut.isWorker()));
 }
 
 std::thread waitAndInitAMatch() {
@@ -199,10 +202,9 @@ int main(int argc, char *argv[]) {
     reconnecting();
   }
   std::cout << "Game ended" << std::endl;
-  for(auto p : GraviticBooster::getEntities())
-    delete p.second;
   s.join();
   std::cout << "Press ENTER to continue..." << std::endl;
   std::cin.ignore();
+  GraviticBooster::deleteAll();
   return 0;
 }

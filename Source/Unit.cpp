@@ -20,6 +20,8 @@ double Unit::economicPotential() const {
 }
 
 double Unit::aggressionPotential() const {
+  if(_dpf == 0)
+    return 0;
   double pot = _velocity / _position.euclidian(_closestEnemyPosition) * _dpf * 100;
   return pot;
 }

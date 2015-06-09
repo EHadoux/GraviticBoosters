@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 6
+#define RADIUS 1
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -61,7 +61,7 @@ void Map::update() {
     ap /= entities.size(); ep /= entities.size(); sp /= entities.size();
     tile->setPotentials(ap, ep, sp);
   }  
-  propagatePotential();
+  //propagatePotential();
   for(auto tile : _tiles)
     tile->isRelevantPotentialPoint();
 }

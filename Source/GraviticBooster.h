@@ -17,6 +17,7 @@ private:
   static Camera * _camera;
 
 public:
+  static void deleteAll();
   static int getClock() { return GraviticBooster::_clock; }
   static Map * getMap() { return GraviticBooster::_map; }
   static void setMap(Map * map) { GraviticBooster::_map = map; }

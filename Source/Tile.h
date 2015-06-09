@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <tuple>
+#include <fstream>
 #include "Position.h"
 #include "Entity.h"
 
@@ -24,12 +25,13 @@ public:
   Position getCenterPosition() const { return _centerPos; }
   std::vector<Entity*> getEntities() const;
   bool isRelevantPotentialPoint() const;
-  std::vector<std::tuple<double, double, double>>& getPoints() const { return _points; }
+  std::vector<std::tuple<double, double, double, int>>& getPoints() const { return _points; }
 
 private:
   Position _centerPos;
   std::tuple<double, double, double> _potential;
   mutable std::tuple<double, double, double> _referential;
   int _width, _height;
-  mutable std::vector<std::tuple<double, double, double>> _points;
+  mutable std::vector<std::tuple<double, double, double, int>> _points;
+  mutable std::fstream _file;
 };

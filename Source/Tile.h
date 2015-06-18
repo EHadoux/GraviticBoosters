@@ -8,7 +8,7 @@
 
 class Tile {
 public:
-  Tile(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+  Tile(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int index);
   ~Tile();
 
   std::tuple<double, double, double> getPotential() const { return _potential; }
@@ -31,7 +31,7 @@ private:
   Position _centerPos;
   std::tuple<double, double, double> _potential;
   mutable std::tuple<double, double, double> _referential;
-  int _width, _height;
+  int _width, _height, _index;
   mutable std::vector<std::tuple<double, double, double, int>> _points;
   mutable std::fstream _file;
 };

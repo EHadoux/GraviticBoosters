@@ -11,9 +11,10 @@ _tiles(numOfTilesH * numOfTilesV) {
   _numOfTilesH = numOfTilesH;
   _numOfTilesV = numOfTilesV;
   unsigned int tileH = _height / numOfTilesV, tileW = width / numOfTilesH;
+  int i = 0;
   for(unsigned int x = 0; x < numOfTilesH; x++)
     for(unsigned int y = 0; y < numOfTilesV; y++)
-      _tiles[y * numOfTilesH + x] = new Tile((tileW / 2) + x * tileW, (tileH / 2) + y * tileH, tileW, tileH);
+      _tiles[y * numOfTilesH + x] = new Tile((tileW / 2) + x * tileW, (tileH / 2) + y * tileH, tileW, tileH, ++i);
 }
 
 Map::~Map() {
@@ -56,9 +57,11 @@ void Map::update() {
       continue;
     }
     for(auto e : entities) {
-      ap += e->aggressionPotential(); ep += e->economicPotential(); sp += e->strategicPotential();
+      ap += e->aggressionPotential(); ep += e->economicPotential(); 
+      if(sp < e->strategicPotential() )
+        sp = e->strategicPotential();
     }
-    ap /= entities.size(); ep /= entities.size(); sp /= entities.size();
+    ap /= entities.size(); ep /= entities.size(); //sp /= entities.size();
     tile->setPotentials(ap, ep, sp);
   }  
   //propagatePotential();

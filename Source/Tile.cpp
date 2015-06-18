@@ -1,16 +1,17 @@
 #include "Tile.h"
 #include "GraviticBooster.h"
 
-Tile::Tile(const unsigned int x, const unsigned int y, const unsigned int width, const unsigned int height) :
+Tile::Tile(const unsigned int x, const unsigned int y, const unsigned int width, const unsigned int height, const unsigned int index) :
 _centerPos(x, y) {
   _potential = std::make_tuple(.0, .0, .0);
   _referential = std::make_tuple(.0, .0, .0);
   _width = width;
   _height = height;  
+  _index = index;
 }
 
 Tile::~Tile() {
-  _file.open("data.txt", std::fstream::out | std::fstream::app);
+  _file.open("tiles/data" + std::to_string(_index) + ".txt", std::fstream::out | std::fstream::app);
   for(auto point : _points) {    
     double agg = std::get<0>(point), eco = std::get<1>(point), strat = std::get<2>(point);
     int time = std::get<3>(point);

@@ -68,12 +68,15 @@ The figure above shows a StarCraft game and a corresponding visualization of the
 RGB colors are used to encode the 3 components: red represents the aggressive potential, green the economic potential and blue the strategic one.
 
 \section{Perspectives}
-We consider several perspectives in the context of this work in order to increase the accuracy of our observer.
-Firstly, we plan to take into account the spaciality of the events (unit creations, skirmishes, \emph{etc.}). % TODO Expliquer ou enlever
-Self-Organizing Maps seem very adapted for such a purpose.
-Secondly, we could use clusterization to group similar game sequences.
-This will allow the automatic observer to not only follow the action, but also explain what it is going on.
-Those two perspectives are works in progress.
+With all the potentials computed for each tile, it would be interesting to analyze the points generated.
+In fact, we can see that, depending on the type of the tile (main base, first expansion, attack path, etc.) we can clusterize the points.
+The clusters can act as a profil for a tile, that can be learn and used online, while observing the game, to explain what is happening.
+%We consider several perspectives in the context of this work in order to increase the accuracy of our observer.
+%Firstly, we plan to take into account the spaciality of the events (unit creations, skirmishes, \emph{etc.}). % TODO Expliquer ou enlever
+%Self-Organizing Maps seem very adapted for such a purpose.
+%Secondly, we could use clusterization to group similar game sequences.
+%This will allow the automatic observer to not only follow the action, but also explain what it is going on.
+%Those two perspectives are works in progress.
 
 The video game industry continues to expand while almost no AI has been involved in this expansion~\cite{miikkulainen2007creating}.
 Unfortunately, AI seems not to be a priority of publishers compared to \textit{e.g.} graphics with a better marketing value.

@@ -12,7 +12,7 @@ Building::Building(const unsigned int id, Position position, const unsigned int 
 Building::~Building() {}
 
 double Building::economicPotential() const {
-  return _isBase ? (10.*MININGPOTENTIAL) / (GraviticBooster::getClock() - getCreationTime()) : .0;
+  return _isBase ? (30.*MININGPOTENTIAL) / (GraviticBooster::getClock() - getCreationTime()) : .0;
 }
 
 std::vector<Building*> Building::buildingNeighborhood() const {

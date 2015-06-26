@@ -34,14 +34,14 @@ void reconnecting() {
 
 void initGraviticBooster() {
   Position * initPosCam = new Position(BWAPI::Broodwar->mapWidth()*TILE_SIZE / 2, BWAPI::Broodwar->mapHeight()*TILE_SIZE / 2);
-  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, BWAPI::Broodwar->mapWidth() / 8, BWAPI::Broodwar->mapHeight() / 8));
+  GraviticBooster::setMap(new Map(BWAPI::Broodwar->mapWidth()*TILE_SIZE, BWAPI::Broodwar->mapHeight()*TILE_SIZE, BWAPI::Broodwar->mapWidth() / 4, BWAPI::Broodwar->mapHeight() / 4));
   GraviticBooster::setHeatmap(new PotentialHeatmap(SCREENWIDTH, (SCREENWIDTH*BWAPI::Broodwar->mapHeight()) / BWAPI::Broodwar->mapWidth()));
   GraviticBooster::setCamera(new Camera(*initPosCam));
 }
 
 void changeCameraPosition() {
   auto pos = GraviticBooster::getCamera()->getPosition();
-  BWAPI::Broodwar->setScreenPosition(BWAPI::Position(pos.getX(), pos.getY()) - BWAPI::Position(320, 240));
+  BWAPI::Broodwar->setScreenPosition(BWAPI::Position(pos.getX(), pos.getY()) - BWAPI::Position(320, 140));
 }
 
 void threadGB(std::unordered_map<int, BWAPI::Player> enemies) {

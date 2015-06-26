@@ -2,7 +2,7 @@
 #include <algorithm>
 
 #define PI 3.141592653
-#define RADIUS 1
+#define RADIUS 4
 
 Map::Map(const unsigned int width, const unsigned int height, const unsigned int numOfTilesH, const unsigned int numOfTilesV) :
 _tiles(numOfTilesH * numOfTilesV) {
@@ -56,6 +56,7 @@ void Map::update() {
       tile->setAllPotentials(0.);
       continue;
     }
+    sp = .0;
     for(auto e : entities) {
       ap += e->aggressionPotential(); ep += e->economicPotential(); 
       if(sp < e->strategicPotential() )
@@ -64,9 +65,11 @@ void Map::update() {
     ap /= entities.size(); ep /= entities.size(); //sp /= entities.size();
     tile->setPotentials(ap, ep, sp);
   }  
-  //propagatePotential();
+  propagatePotential();
+  /*
   for(auto tile : _tiles)
     tile->isRelevantPotentialPoint();
+  */
 }
 
 void Map::propagatePotential() {

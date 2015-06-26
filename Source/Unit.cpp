@@ -22,16 +22,16 @@ double Unit::economicPotential() const {
 double Unit::aggressionPotential() const {
   if(_dpf == 0)
     return 0;
-  double pot = _velocity / _position.euclidian(_closestEnemyPosition) * _dpf * 100;
+  double pot = (_velocity * _dpf) / _position.euclidian(_closestEnemyPosition);
   return pot;
 }
 
 double Unit::strategicPotential() const {
   if(_closestUnseenBuildingPosition.getX() != -1) {
-    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance() + _gas * .01 + _minerals * .01;
+    double pot = 1 - _position.euclidian(_closestUnseenBuildingPosition) / GraviticBooster::getMaxDistance();
     return pot;
   } else
-    return 0;
+    return 0.;
 }
 
 double Unit::timeToPosition(Position to) const {
